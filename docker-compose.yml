@@ -1,0 +1,78 @@
+name: radflow
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-radflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-radflow}
+      POSTGRES_DB: ${POSTGRES_DB:-radflow}
+    ports:
+      - '${POSTGRES_PORT:-5434}:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  nats:
+    image: nats:2.12-alpine
+    command: ['--jetstream', '--http_port', '8222']
+    ports:
+      - '${NATS_PORT:-4222}:4222'
+      - '${NATS_MONITOR_PORT:-8222}:8222'
+    volumes:
+      - natsdata:/data
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O-', 'http://localhost:8222/healthz']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  orthanc:
+    image: orthancteam/orthanc:latest
+    volumes:
+      - ./ops/orthanc/orthanc.json:/etc/orthanc/orthanc.json:ro
+      - orthancdata:/var/lib/orthanc/db
+    ports:
+      - '${ORTHANC_HTTP_PORT:-8042}:8042'
+      - '${ORTHANC_DICOM_PORT:-4242}:4242'
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: ['--config=/etc/otel/config.yaml']
+    volumes:
+      - ./ops/otel/otel-collector.yaml:/etc/otel/config.yaml:ro
+    ports:
+      - '${OTEL_GRPC_PORT:-4317}:4317'
+      - '${OTEL_HTTP_PORT:-4318}:4318'
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./ops/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - promdata:/prometheus
+    ports:
+      - '${PROMETHEUS_PORT:-9091}:9090'
+
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - ./ops/grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafanadata:/var/lib/grafana
+    ports:
+      - '${GRAFANA_PORT:-3300}:3000'
+    depends_on:
+      - prometheus
+
+volumes:
+  pgdata:
+  natsdata:
+  orthancdata:
+  promdata:
+  grafanadata:
