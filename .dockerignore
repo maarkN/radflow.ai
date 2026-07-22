@@ -1,0 +1,13 @@
+**/node_modules
+**/dist
+**/build
+**/coverage
+**/.venv
+**/__pycache__
+.git
+.docs
+data
+*.log
+.env
+.env.*
+!.env.example
