@@ -8,7 +8,7 @@ COPY services/dictation ./services/dictation
 RUN pnpm install --frozen-lockfile --filter @radflow/dictation... \
   && pnpm --filter @radflow/shared run build \
   && pnpm --filter @radflow/dictation run build \
-  && pnpm --filter @radflow/dictation deploy --prod /out
+  && pnpm --filter @radflow/dictation deploy --prod --legacy /out
 
 FROM node:24-alpine
 ENV NODE_ENV=production

@@ -8,7 +8,7 @@ COPY services/worklist ./services/worklist
 RUN pnpm install --frozen-lockfile --filter @radflow/worklist... \
   && pnpm --filter @radflow/shared run build \
   && pnpm --filter @radflow/worklist run build \
-  && pnpm --filter @radflow/worklist deploy --prod /out
+  && pnpm --filter @radflow/worklist deploy --prod --legacy /out
 
 FROM node:24-alpine
 ENV NODE_ENV=production

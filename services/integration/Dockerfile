@@ -8,7 +8,7 @@ COPY services/integration ./services/integration
 RUN pnpm install --frozen-lockfile --filter @radflow/integration... \
   && pnpm --filter @radflow/shared run build \
   && pnpm --filter @radflow/integration run build \
-  && pnpm --filter @radflow/integration deploy --prod /out
+  && pnpm --filter @radflow/integration deploy --prod --legacy /out
 
 FROM node:24-alpine
 ENV NODE_ENV=production

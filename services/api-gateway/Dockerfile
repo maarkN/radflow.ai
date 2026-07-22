@@ -8,7 +8,7 @@ COPY services/api-gateway ./services/api-gateway
 RUN pnpm install --frozen-lockfile --filter @radflow/api-gateway... \
   && pnpm --filter @radflow/shared run build \
   && pnpm --filter @radflow/api-gateway run build \
-  && pnpm --filter @radflow/api-gateway deploy --prod /out
+  && pnpm --filter @radflow/api-gateway deploy --prod --legacy /out
 
 FROM node:24-alpine
 ENV NODE_ENV=production
