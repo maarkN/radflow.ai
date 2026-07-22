@@ -1,0 +1,32 @@
+# Docs internos de planejamento (não versionar)
+.docs/
+
+# Ponteiro local para AGENTS.md (regras versionadas ficam em AGENTS.md)
+CLAUDE.md
+
+# Dependências
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Builds
+dist/
+build/
+.turbo/
+coverage/
+
+# Ambiente
+.env
+.env.*
+!.env.example
+
+# SO / editor
+.DS_Store
+*.log
+
+# Dados locais (volumes, DICOM baixado, áudio)
+data/
+*.dcm
+*.wav
+*.webm
