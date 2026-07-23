@@ -19,7 +19,7 @@ const queryStub: IWorklistStatsQuery = {
 
 describe('MetricsController', () => {
   it('renders the KPIs in Prometheus text format', async () => {
-    const body = await new MetricsController(queryStub).metrics();
+    const body = await new MetricsController(queryStub).render();
 
     expect(body).toContain('radflow_worklist_queue_total{status="unread"} 4');
     expect(body).toContain('radflow_worklist_queue_total{status="signed"} 7');
@@ -34,7 +34,7 @@ describe('MetricsController', () => {
   it('renders NaN when no study was ever signed', async () => {
     const body = await new MetricsController({
       execute: jest.fn().mockResolvedValue({ ...stats, avgTurnaroundMinutes: null }),
-    }).metrics();
+    }).render();
 
     expect(body).toContain('radflow_worklist_turnaround_minutes NaN');
   });

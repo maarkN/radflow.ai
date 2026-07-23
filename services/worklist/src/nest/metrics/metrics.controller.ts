@@ -1,4 +1,5 @@
-import { Controller, Get, Header, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, Res } from '@nestjs/common';
+import type { Response } from 'express';
 import type { IWorklistStatsQuery } from '../../core/study/application/queries/worklist-stats.query';
 
 /**
@@ -10,9 +11,15 @@ import type { IWorklistStatsQuery } from '../../core/study/application/queries/w
 export class MetricsController {
   constructor(@Inject('WorklistStatsQuery') private readonly statsQuery: IWorklistStatsQuery) {}
 
+  // @Res direto para escapar do interceptor de envelope {data} — Prometheus
+  // exige o texto puro.
   @Get()
-  @Header('content-type', 'text/plain; version=0.0.4; charset=utf-8')
-  async metrics(): Promise<string> {
+  async metrics(@Res() response: Response): Promise<void> {
+    const body = await this.render();
+    response.type('text/plain; version=0.0.4; charset=utf-8').send(body);
+  }
+
+  async render(): Promise<string> {
     const stats = await this.statsQuery.execute();
 
     const lines: string[] = [
