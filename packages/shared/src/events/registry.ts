@@ -1,9 +1,6 @@
 import type { z } from 'zod';
 import { hl7OrmReceivedEventSchema } from './hl7.events';
-import {
-  reportDraftReadyEventSchema,
-  reportDraftRequestedEventSchema,
-} from './report.events';
+import { reportDraftReadyEventSchema, reportDraftRequestedEventSchema } from './report.events';
 import {
   studyClaimedEventSchema,
   studyCriticalFindingEventSchema,

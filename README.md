@@ -51,14 +51,14 @@ docker compose up -d --build
 AI_PROVIDER=anthropic ANTHROPIC_API_KEY=sk-... docker compose up -d report-ai
 ```
 
-| Surface | URL | Credentials |
-|---|---|---|
-| Cockpit (web) | http://localhost:5173 | `ana`/`ana` (radiologist) · `admin`/`admin` · `tech`/`tech` |
-| API gateway | http://localhost:3010/api/v1 | JWT via `POST /auth/login` |
-| Orthanc + OHIF | http://localhost:8042 | — |
-| Jaeger (traces) | http://localhost:16686 | — |
-| Grafana (dashboards RadFlow) | http://localhost:3300 | `admin`/`admin` |
-| Prometheus | http://localhost:9091 | — |
+| Surface                      | URL                          | Credentials                                                 |
+| ---------------------------- | ---------------------------- | ----------------------------------------------------------- |
+| Cockpit (web)                | http://localhost:5173        | `ana`/`ana` (radiologist) · `admin`/`admin` · `tech`/`tech` |
+| API gateway                  | http://localhost:3010/api/v1 | JWT via `POST /auth/login`                                  |
+| Orthanc + OHIF               | http://localhost:8042        | —                                                           |
+| Jaeger (traces)              | http://localhost:16686       | —                                                           |
+| Grafana (dashboards RadFlow) | http://localhost:3300        | `admin`/`admin`                                             |
+| Prometheus                   | http://localhost:9091        | —                                                           |
 
 Feed it with synthetic HL7 orders (each one becomes a study + DICOM images in Orthanc):
 

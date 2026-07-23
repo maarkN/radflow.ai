@@ -28,7 +28,10 @@ export class OutboxRelay {
         await this.publisher.publish(row.subject, row.envelope, row.eventId);
         await manager
           .getRepository(OutboxModel)
-          .update({ eventId: row.eventId }, { publishedAt: new Date(), attempts: row.attempts + 1 });
+          .update(
+            { eventId: row.eventId },
+            { publishedAt: new Date(), attempts: row.attempts + 1 },
+          );
       }
       return rows.length;
     });

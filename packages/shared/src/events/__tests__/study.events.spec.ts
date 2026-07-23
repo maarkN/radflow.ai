@@ -61,8 +61,8 @@ describe('studyCriticalFindingPayloadSchema', () => {
   });
 
   it('rejects an empty description', () => {
-    expect(
-      studyCriticalFindingPayloadSchema.safeParse({ ...valid, description: '' }).success,
-    ).toBe(false);
+    expect(studyCriticalFindingPayloadSchema.safeParse({ ...valid, description: '' }).success).toBe(
+      false,
+    );
   });
 });

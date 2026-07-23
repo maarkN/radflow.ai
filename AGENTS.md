@@ -89,9 +89,9 @@ claim(radiologistId: RadiologistId): void {
 
 - Entities **accumulate** errors in `this.notification` instead of throwing: a `<Name>Rules` class
   with class-validator decorators (using groups per field), a `<Name>Validator extends
-  ClassValidatorFields`, run inside `create()` and every mutator.
+ClassValidatorFields`, run inside `create()` and every mutator.
 - The **use case** decides to throw: `if (entity.notification.hasErrors()) throw new
-  EntityValidationError(entity.notification.toJSON())`.
+EntityValidationError(entity.notification.toJSON())`.
 - VOs throw specific errors on construction; wrap with `Either.safe()` when the caller needs to fold
   VO errors into the aggregate's notification.
 - Error hierarchy: `EntityValidationError`, `SearchValidationError`, `LoadEntityError` (thrown by DB
@@ -137,13 +137,13 @@ claim(radiologistId: RadiologistId): void {
   filters (general → base → http → validation) map everything to the same envelope. Numeric ranges:
   worklist 1xxx, integration 2xxx, dictation 3xxx, report-ai 4xxx, auth/gateway 5xxx.
 - Validation: DTOs + class-validator, global `ValidationPipe({ transform: true, errorHttpStatusCode:
-  422 })`; presenters via class-transformer (dates → ISO 8601 UTC).
+422 })`; presenters via class-transformer (dates → ISO 8601 UTC).
 - **Swagger lives in a parallel `docs/` layer** of composite decorators
   (`StudyClaimDoc()` = `applyDecorators(Doc, DocAuth, DocResponse, DocErrors)`), not inline noise on
   controllers. Docs must show the real error contract.
 - Auth: JWT access+refresh; composable stacked decorators (`@AuthProtected()`,
   `@RoleProtected('radiologist')`, `@ApiKeySystemProtected()`); RBAC roles `radiologist | admin |
-  technologist`. Helmet, CORS allowlist, rate limiting at the gateway.
+technologist`. Helmet, CORS allowlist, rate limiting at the gateway.
 
 ## 6. Events & messaging (NATS JetStream)
 
@@ -181,11 +181,11 @@ claim(radiologistId: RadiologistId): void {
 
 Three tiers, distinguished by filename suffix and jest project:
 
-| Suffix | Level | Lives in | Doubles |
-|---|---|---|---|
-| `*.spec.ts` | Unit | colocated `__tests__/` | in-memory repos, fake UoW, fixed clock |
-| `*.int-spec.ts` | Integration | colocated `__tests__/` | real PG + NATS via Testcontainers |
-| `*.e2e-spec.ts` | End-to-end | root `test/` per service | full app over HTTP (supertest), seeded DB |
+| Suffix          | Level       | Lives in                 | Doubles                                   |
+| --------------- | ----------- | ------------------------ | ----------------------------------------- |
+| `*.spec.ts`     | Unit        | colocated `__tests__/`   | in-memory repos, fake UoW, fixed clock    |
+| `*.int-spec.ts` | Integration | colocated `__tests__/`   | real PG + NATS via Testcontainers         |
+| `*.e2e-spec.ts` | End-to-end  | root `test/` per service | full app over HTTP (supertest), seeded DB |
 
 Rules:
 

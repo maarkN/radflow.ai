@@ -35,8 +35,7 @@ export function parseOrmMessage(raw: string): Hl7OrmReceivedPayload {
     throw new Hl7ParseError('missing OBR segment');
   }
 
-  const accessionNumber =
-    message.component('OBR', 3, 1) || message.component('ORC', 3, 1);
+  const accessionNumber = message.component('OBR', 3, 1) || message.component('ORC', 3, 1);
   if (!accessionNumber) {
     throw new Hl7ParseError('missing accession number (OBR-3 / ORC-3)');
   }

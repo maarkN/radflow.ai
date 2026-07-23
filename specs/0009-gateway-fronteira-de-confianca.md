@@ -6,7 +6,7 @@
 ## Contexto
 
 A autenticação (JWT + RBAC por rota) vive no api-gateway. Os serviços internos precisam
-saber *quem* agiu (para o audit log) sem cada um revalidar token.
+saber _quem_ agiu (para o audit log) sem cada um revalidar token.
 
 ## Decisão
 

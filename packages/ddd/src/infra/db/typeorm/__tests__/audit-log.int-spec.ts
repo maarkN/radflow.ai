@@ -73,8 +73,6 @@ describe('Audit log (integration)', () => {
     await expect(
       context.dataSource.query(`UPDATE audit_log SET actor = 'tampered'`),
     ).rejects.toThrow(/append-only/);
-    await expect(context.dataSource.query(`DELETE FROM audit_log`)).rejects.toThrow(
-      /append-only/,
-    );
+    await expect(context.dataSource.query(`DELETE FROM audit_log`)).rejects.toThrow(/append-only/);
   });
 });

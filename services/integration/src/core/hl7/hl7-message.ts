@@ -78,8 +78,5 @@ export function hl7TimestampToIso(value: string): string {
 
 /** Date -> HL7 TS (YYYYMMDDHHMMSS, UTC). */
 export function isoToHl7Timestamp(date: Date): string {
-  return date
-    .toISOString()
-    .replace(/[-:T]/g, '')
-    .slice(0, 14);
+  return date.toISOString().replace(/[-:T]/g, '').slice(0, 14);
 }

@@ -49,7 +49,9 @@ export class MllpServer {
   private async drain(socket: Socket, next: () => string | null): Promise<void> {
     for (let raw = next(); raw !== null; raw = next()) {
       const ack = await this.handler(raw);
-      socket.write(Buffer.concat([Buffer.from([VT]), Buffer.from(ack, 'utf8'), Buffer.from([FS, CR])]));
+      socket.write(
+        Buffer.concat([Buffer.from([VT]), Buffer.from(ack, 'utf8'), Buffer.from([FS, CR])]),
+      );
     }
   }
 

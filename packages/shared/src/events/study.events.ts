@@ -55,4 +55,6 @@ export const studyCriticalFindingPayloadSchema = z.object({
   detectedAt: z.iso.datetime(),
 });
 export type StudyCriticalFindingPayload = z.infer<typeof studyCriticalFindingPayloadSchema>;
-export const studyCriticalFindingEventSchema = eventEnvelopeSchema(studyCriticalFindingPayloadSchema);
+export const studyCriticalFindingEventSchema = eventEnvelopeSchema(
+  studyCriticalFindingPayloadSchema,
+);

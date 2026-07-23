@@ -75,7 +75,9 @@ export class Report extends AggregateRoot {
     }
   }
 
-  updateSections(edits: Partial<{ technique: string; findings: string; impression: string }>): void {
+  updateSections(
+    edits: Partial<{ technique: string; findings: string; impression: string }>,
+  ): void {
     this.assertDraft('edit the sections');
     const base =
       this.sections ?? new ReportSections({ technique: '', findings: '', impression: '' });

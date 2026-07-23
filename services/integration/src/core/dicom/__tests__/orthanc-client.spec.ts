@@ -36,11 +36,12 @@ describe('OrthancClient', () => {
   });
 
   it('creates the study on the first instance and attaches the rest via Parent', async () => {
-    fetchSpy.mockImplementation(async () =>
-      new Response(
-        JSON.stringify({ ID: 'i-1', ParentSeries: 'series-1', ParentStudy: 'study-1' }),
-        { status: 200 },
-      ),
+    fetchSpy.mockImplementation(
+      async () =>
+        new Response(
+          JSON.stringify({ ID: 'i-1', ParentSeries: 'series-1', ParentStudy: 'study-1' }),
+          { status: 200 },
+        ),
     );
     const client = new OrthancClient('http://orthanc:8042');
 

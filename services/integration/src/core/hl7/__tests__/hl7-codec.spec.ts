@@ -5,8 +5,7 @@ import { Hl7Message, Hl7ParseError, hl7TimestampToIso, isoToHl7Timestamp } from 
 import { buildOruMessage } from '../oru.builder';
 import { parseOrmMessage } from '../orm.parser';
 
-const fixture = (name: string) =>
-  readFileSync(join(__dirname, 'fixtures', name), 'utf8');
+const fixture = (name: string) => readFileSync(join(__dirname, 'fixtures', name), 'utf8');
 
 describe('Hl7Message', () => {
   it('parses segments and resolves fields with HL7 numbering (incl. MSH quirk)', () => {
@@ -78,9 +77,7 @@ describe('buildOruMessage', () => {
       messageControlId: 'ORU00001',
     });
     const lines = oru.split('\r');
-    expect(lines[0]).toBe(
-      'MSH|^~\\&|RADFLOW|RADFLOW|||20260723153000||ORU^R01|ORU00001|P|2.5.1',
-    );
+    expect(lines[0]).toBe('MSH|^~\\&|RADFLOW|RADFLOW|||20260723153000||ORU^R01|ORU00001|P|2.5.1');
     expect(lines[1]).toBe('PID|1||||DOE^JOHN');
     expect(lines[2]).toContain('OBR|1||ACC-2026-1001|CT^Radiology Study');
     expect(lines[4]).toContain('No acute findings.\\.br\\Lungs clear.');

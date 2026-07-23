@@ -19,7 +19,7 @@ Serviços dependem dele via workspace e mantêm apenas seu domínio específico.
 
 - **Copiar e colar por serviço**: independência total, mas três cópias do UnitOfWork já
   haviam começado a divergir na validação de envelope.
-- **Framework externo (ex.: @nestjs/cqrs, MikroORM UoW)**: acopla o *core* ao framework —
+- **Framework externo (ex.: @nestjs/cqrs, MikroORM UoW)**: acopla o _core_ ao framework —
   exatamente o que a regra "core sem NestJS" proíbe; e esconderia o design que o projeto
   quer exibir.
 - **Monolito modular**: eliminaria o problema, mas o objetivo é demonstrar arquitetura de

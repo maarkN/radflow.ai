@@ -1,9 +1,5 @@
 import { Subjects } from '@radflow/shared';
-import {
-  Report,
-  ReportAlreadySignedError,
-  ReportNotReadyToSignError,
-} from '../report.aggregate';
+import { Report, ReportAlreadySignedError, ReportNotReadyToSignError } from '../report.aggregate';
 import { CriticalFindingDetectedEvent } from '../domain-events/report.events';
 import { RadiologistId, StudyId } from '../value-objects/ids.vo';
 import { ReportSections } from '../value-objects/report-sections.vo';

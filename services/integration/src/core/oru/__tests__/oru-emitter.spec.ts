@@ -48,7 +48,11 @@ describe('createOruHandler', () => {
         sent.push(message);
       },
     );
-    await handler({ subject: 'radflow.study.signed', envelope: signedEnvelope(), redeliveryCount: 0 });
+    await handler({
+      subject: 'radflow.study.signed',
+      envelope: signedEnvelope(),
+      redeliveryCount: 0,
+    });
     expect(sent).toHaveLength(1);
   });
 

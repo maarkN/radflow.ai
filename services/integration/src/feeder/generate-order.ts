@@ -6,9 +6,26 @@ const GIVEN_NAMES = ['JOHN', 'MARIA', 'WEI', 'FATIMA', 'LUCAS', 'EMMA', 'NOAH', 
 const MODALITIES: Modality[] = ['CT', 'MR', 'CR', 'US'];
 // 3 stat / 6 urgent / 11 routine out of every 20 orders.
 const PRIORITY_WHEEL: Priority[] = [
-  'stat', 'urgent', 'routine', 'routine', 'urgent', 'routine', 'routine', 'stat', 'urgent',
-  'routine', 'routine', 'urgent', 'routine', 'routine', 'stat', 'urgent', 'routine', 'routine',
-  'urgent', 'routine',
+  'stat',
+  'urgent',
+  'routine',
+  'routine',
+  'urgent',
+  'routine',
+  'routine',
+  'stat',
+  'urgent',
+  'routine',
+  'routine',
+  'urgent',
+  'routine',
+  'routine',
+  'stat',
+  'urgent',
+  'routine',
+  'routine',
+  'urgent',
+  'routine',
 ];
 
 /** Deterministic per (runId, index): same run generates the same orders. */

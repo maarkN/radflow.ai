@@ -5,7 +5,10 @@ import { ReportInMemoryRepository } from '../../../infra/db/in-memory/report-in-
 import type { GeneratedDraft, IDraftClient } from '../../ports/draft-client.interface';
 import type { IWorklistClient, WorklistStudy } from '../../ports/worklist-client.interface';
 import { AttachTranscriptUseCase } from '../attach-transcript/attach-transcript.use-case';
-import { GenerateDraftUseCase, TranscriptMissingError } from '../generate-draft/generate-draft.use-case';
+import {
+  GenerateDraftUseCase,
+  TranscriptMissingError,
+} from '../generate-draft/generate-draft.use-case';
 import { SignReportUseCase } from '../sign-report/sign-report.use-case';
 import { StartReportUseCase } from '../start-report/start-report.use-case';
 import { UpdateReportUseCase } from '../update-report/update-report.use-case';

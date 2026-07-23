@@ -21,9 +21,7 @@ describe('OrthancClient (integration against real Orthanc)', () => {
       ])
       .withExposedPorts(8042)
       .start();
-    client = new OrthancClient(
-      `http://${container.getHost()}:${container.getMappedPort(8042)}`,
-    );
+    client = new OrthancClient(`http://${container.getHost()}:${container.getMappedPort(8042)}`);
   }, 240_000);
 
   afterAll(async () => {
