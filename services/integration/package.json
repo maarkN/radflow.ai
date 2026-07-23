@@ -17,9 +17,11 @@
     "@nestjs/core": "^11.1.5",
     "@nestjs/platform-express": "^11.1.5",
     "@nestjs/terminus": "^11.0.0",
+    "@radflow/messaging": "workspace:*",
     "@radflow/shared": "workspace:*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "nats": "^2.29.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
