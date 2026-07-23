@@ -6,8 +6,8 @@ export type AckCode = 'AA' | 'AE' | 'AR';
 export function buildAck(
   messageControlId: string,
   code: AckCode,
-  now: Date = new Date(),
   errorText?: string,
+  now: Date = new Date(),
 ): string {
   const segments = [
     `MSH|^~\\&|RADFLOW|RADFLOW|||${isoToHl7Timestamp(now)}||ACK|${messageControlId}-ACK|P|2.5.1`,

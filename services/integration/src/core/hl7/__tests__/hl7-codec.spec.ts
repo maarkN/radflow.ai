@@ -107,13 +107,13 @@ describe('buildOruMessage', () => {
 
 describe('buildAck', () => {
   it('builds an AA ack echoing the control id', () => {
-    const ack = buildAck('MSG00001', 'AA', new Date('2026-07-23T12:00:01Z'));
+    const ack = buildAck('MSG00001', 'AA', undefined, new Date('2026-07-23T12:00:01Z'));
     expect(ack).toContain('||ACK|MSG00001-ACK|P|2.5.1');
     expect(ack.split('\r')[1]).toBe('MSA|AA|MSG00001');
   });
 
   it('includes the error text on AE', () => {
-    const ack = buildAck('MSG00009', 'AE', new Date(), 'missing accession');
+    const ack = buildAck('MSG00009', 'AE', 'missing accession');
     expect(ack.split('\r')[1]).toBe('MSA|AE|MSG00009|missing accession');
   });
 });
