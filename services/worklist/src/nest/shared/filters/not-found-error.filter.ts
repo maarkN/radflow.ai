@@ -1,7 +1,7 @@
 import { Catch } from '@nestjs/common';
 import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common';
 import type { Response } from 'express';
-import { NotFoundError } from '../../../core/shared/domain/errors/not-found.error';
+import { NotFoundError } from '@radflow/ddd';
 
 @Catch(NotFoundError)
 export class NotFoundErrorFilter implements ExceptionFilter {

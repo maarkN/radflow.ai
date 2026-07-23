@@ -3,7 +3,7 @@ import type { Modality, Priority } from '@radflow/shared';
 import type {
   IDomainEvent,
   IntegrationEvent,
-} from '../../../shared/domain/events/domain-event.interface';
+} from '@radflow/ddd';
 import type { RadiologistId, ReportId, StudyId } from '../value-objects/ids.vo';
 
 export class StudyOrderedEvent implements IDomainEvent {

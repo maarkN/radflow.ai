@@ -1,5 +1,5 @@
 import { Subjects } from '@radflow/shared';
-import { FakeUnitOfWork } from '../../../../../shared/infra/testing/fake-unit-of-work';
+import { FakeUnitOfWork } from '@radflow/ddd';
 import { StudyFakeBuilder } from '../../../../domain/study-fake.builder';
 import { StudyInMemoryRepository } from '../../../../infra/db/in-memory/study-in-memory.repository';
 import { RadiologistId, ReportId } from '../../../../domain/value-objects/ids.vo';

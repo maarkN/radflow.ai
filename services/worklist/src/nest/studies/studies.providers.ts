@@ -1,9 +1,9 @@
 import { Scope } from '@nestjs/common';
 import type { Provider } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { SystemClock } from '../../core/shared/domain/clock.interface';
-import type { IClock } from '../../core/shared/domain/clock.interface';
-import type { IUnitOfWork } from '../../core/shared/domain/repository/unit-of-work.interface';
+import { SystemClock } from '@radflow/ddd';
+import type { IClock } from '@radflow/ddd';
+import type { IUnitOfWork } from '@radflow/ddd';
 import { ClaimStudyUseCase } from '../../core/study/application/use-cases/claim-study/claim-study.use-case';
 import { CreateStudyUseCase } from '../../core/study/application/use-cases/create-study/create-study.use-case';
 import { GetStudyUseCase } from '../../core/study/application/use-cases/get-study/get-study.use-case';

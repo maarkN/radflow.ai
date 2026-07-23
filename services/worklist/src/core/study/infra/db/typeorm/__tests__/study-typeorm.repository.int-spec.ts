@@ -1,7 +1,7 @@
-import { ConcurrencyError } from '../../../../../shared/domain/errors/concurrency.error';
-import { NotFoundError } from '../../../../../shared/domain/errors/not-found.error';
-import { LoadEntityError } from '../../../../../shared/domain/validators/validation.error';
-import { setupTypeOrm } from '../../../../../shared/infra/testing/typeorm-helpers';
+import { ConcurrencyError } from '@radflow/ddd';
+import { NotFoundError } from '@radflow/ddd';
+import { LoadEntityError } from '@radflow/ddd';
+import { setupTypeOrm } from '@radflow/ddd/dist/infra/testing/typeorm-helpers';
 import { StudyFakeBuilder } from '../../../../domain/study-fake.builder';
 import {
   DuplicatedAccessionNumberError,

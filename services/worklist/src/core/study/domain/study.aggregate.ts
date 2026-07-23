@@ -1,6 +1,6 @@
 import type { Modality, Priority, StudyStatus } from '@radflow/shared';
-import { AggregateRoot } from '../../shared/domain/aggregate-root';
-import { InvalidStateTransitionError } from '../../shared/domain/errors/invalid-state-transition.error';
+import { AggregateRoot } from '@radflow/ddd';
+import { InvalidStateTransitionError } from '@radflow/ddd';
 import {
   StudyClaimedEvent,
   StudyDictatedEvent,

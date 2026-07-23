@@ -1,6 +1,6 @@
-import { NotFoundError } from '../../../../shared/domain/errors/not-found.error';
-import type { IUnitOfWork } from '../../../../shared/domain/repository/unit-of-work.interface';
-import type { IUseCase } from '../../../../shared/application/use-case.interface';
+import { NotFoundError } from '@radflow/ddd';
+import type { IUnitOfWork } from '@radflow/ddd';
+import type { IUseCase } from '@radflow/ddd';
 import { Study } from '../../../domain/study.aggregate';
 import type { IStudyRepository } from '../../../domain/study.repository';
 import { RadiologistId, ReportId, StudyId } from '../../../domain/value-objects/ids.vo';

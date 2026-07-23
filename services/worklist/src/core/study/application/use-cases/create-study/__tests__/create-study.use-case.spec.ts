@@ -1,7 +1,7 @@
 import { Subjects } from '@radflow/shared';
-import { FixedClock } from '../../../../../shared/domain/clock.interface';
-import { EntityValidationError } from '../../../../../shared/domain/validators/validation.error';
-import { FakeUnitOfWork } from '../../../../../shared/infra/testing/fake-unit-of-work';
+import { FixedClock } from '@radflow/ddd';
+import { EntityValidationError } from '@radflow/ddd';
+import { FakeUnitOfWork } from '@radflow/ddd';
 import { StudyInMemoryRepository } from '../../../../infra/db/in-memory/study-in-memory.repository';
 import { CreateStudyUseCase } from '../create-study.use-case';
 

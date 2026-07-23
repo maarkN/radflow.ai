@@ -1,6 +1,6 @@
 import { IsNotEmpty, MaxLength } from 'class-validator';
-import { ClassValidatorFields } from '../../shared/domain/validators/class-validator-fields';
-import type { Notification } from '../../shared/domain/notification';
+import { ClassValidatorFields } from '@radflow/ddd';
+import type { Notification } from '@radflow/ddd';
 import type { Study } from './study.aggregate';
 
 export class StudyRules {

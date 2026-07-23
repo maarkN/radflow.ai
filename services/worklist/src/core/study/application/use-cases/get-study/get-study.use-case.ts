@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../shared/domain/errors/not-found.error';
-import type { IUseCase } from '../../../../shared/application/use-case.interface';
+import { NotFoundError } from '@radflow/ddd';
+import type { IUseCase } from '@radflow/ddd';
 import { Study } from '../../../domain/study.aggregate';
 import type { IStudyRepository } from '../../../domain/study.repository';
 import { StudyId } from '../../../domain/value-objects/ids.vo';

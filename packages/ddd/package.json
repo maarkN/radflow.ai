@@ -1,0 +1,29 @@
+{
+  "name": "@radflow/ddd",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DDD building blocks: aggregates, value objects, notification, repositories, transactional outbox",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@radflow/messaging": "workspace:*",
+    "@radflow/shared": "workspace:*",
+    "class-validator": "^0.14.2",
+    "typeorm": "^0.3.25"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.13.3",
+    "@swc/jest": "^0.2.39",
+    "@testcontainers/postgresql": "^11.7.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.13.3",
+    "jest": "^30.0.5",
+    "reflect-metadata": "^0.2.2",
+    "testcontainers": "^11.7.1"
+  }
+}

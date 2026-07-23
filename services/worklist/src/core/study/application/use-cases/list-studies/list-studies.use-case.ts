@@ -1,9 +1,9 @@
-import type { SortDirection } from '../../../../shared/domain/repository/search-params';
+import type { SortDirection } from '@radflow/ddd';
 import {
   PaginationOutputMapper,
   type PaginationOutput,
-} from '../../../../shared/application/pagination-output';
-import type { IUseCase } from '../../../../shared/application/use-case.interface';
+} from '@radflow/ddd';
+import type { IUseCase } from '@radflow/ddd';
 import { StudySearchParams, type IStudyRepository, type StudyFilter } from '../../../domain/study.repository';
 import { StudyOutputMapper, type StudyOutput } from '../common/study-output';
 

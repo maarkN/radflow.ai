@@ -1,7 +1,7 @@
 import { Catch } from '@nestjs/common';
 import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common';
 import type { Response } from 'express';
-import { EntityValidationError } from '../../../core/shared/domain/validators/validation.error';
+import { EntityValidationError } from '@radflow/ddd';
 
 @Catch(EntityValidationError)
 export class EntityValidationErrorFilter implements ExceptionFilter {

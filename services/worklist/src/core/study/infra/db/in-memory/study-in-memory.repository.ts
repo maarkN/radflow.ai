@@ -1,5 +1,5 @@
-import { ConcurrencyError } from '../../../../shared/domain/errors/concurrency.error';
-import { NotFoundError } from '../../../../shared/domain/errors/not-found.error';
+import { ConcurrencyError } from '@radflow/ddd';
+import { NotFoundError } from '@radflow/ddd';
 import { Study } from '../../../domain/study.aggregate';
 import {
   DuplicatedAccessionNumberError,

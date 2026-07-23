@@ -1,8 +1,8 @@
 import { Catch } from '@nestjs/common';
 import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common';
 import type { Response } from 'express';
-import { ConcurrencyError } from '../../../core/shared/domain/errors/concurrency.error';
-import { InvalidStateTransitionError } from '../../../core/shared/domain/errors/invalid-state-transition.error';
+import { ConcurrencyError } from '@radflow/ddd';
+import { InvalidStateTransitionError } from '@radflow/ddd';
 import { SignedByAnotherRadiologistError } from '../../../core/study/domain/study.aggregate';
 import { DuplicatedAccessionNumberError } from '../../../core/study/domain/study.repository';
 import { StudyNotAssignedToRadiologistError } from '../../../core/study/application/use-cases/release-study/release-study.use-case';

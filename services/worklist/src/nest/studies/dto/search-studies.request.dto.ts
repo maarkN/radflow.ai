@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsIn, IsInt, IsOptional, IsUUID, Max, Min } from 'class-validator';
 import type { Modality, Priority, StudyStatus } from '@radflow/shared';
-import type { SortDirection } from '../../../core/shared/domain/repository/search-params';
+import type { SortDirection } from '@radflow/ddd';
 
 export class SearchStudiesRequestDto {
   @IsOptional()

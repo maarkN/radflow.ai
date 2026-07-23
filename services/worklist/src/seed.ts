@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { SystemClock } from './core/shared/domain/clock.interface';
-import { CreateOutboxTable1753200000001 } from './core/shared/infra/db/typeorm/migrations/1753200000001-create-outbox-table';
-import { OutboxModel } from './core/shared/infra/db/typeorm/outbox.model';
-import { UnitOfWorkTypeOrm } from './core/shared/infra/db/typeorm/unit-of-work-typeorm';
+import { SystemClock } from '@radflow/ddd';
+import { CreateOutboxTable1753200000001 } from '@radflow/ddd';
+import { OutboxModel } from '@radflow/ddd';
+import { UnitOfWorkTypeOrm } from '@radflow/ddd';
 import { CreateStudyUseCase } from './core/study/application/use-cases/create-study/create-study.use-case';
 import { CreateStudiesTable1753200000000 } from './core/study/infra/db/typeorm/migrations/1753200000000-create-studies-table';
 import { StudyModel } from './core/study/infra/db/typeorm/study.model';

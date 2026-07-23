@@ -18,10 +18,8 @@ const config: Config = {
     ],
   },
   setupFiles: ['reflect-metadata'],
-  setupFilesAfterEnv: ['@radflow/ddd/dist/infra/testing/expect-helpers'],
   clearMocks: true,
   testEnvironment: 'node',
-  collectCoverageFrom: ['**/*.ts', '!**/__tests__/**', '!main.ts'],
 };
 
 export default config;

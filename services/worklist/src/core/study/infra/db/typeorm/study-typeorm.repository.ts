@@ -1,7 +1,7 @@
 import type { DataSource, EntityManager } from 'typeorm';
-import { ConcurrencyError } from '../../../../shared/domain/errors/concurrency.error';
-import { NotFoundError } from '../../../../shared/domain/errors/not-found.error';
-import type { IUnitOfWork } from '../../../../shared/domain/repository/unit-of-work.interface';
+import { ConcurrencyError } from '@radflow/ddd';
+import { NotFoundError } from '@radflow/ddd';
+import type { IUnitOfWork } from '@radflow/ddd';
 import { Study } from '../../../domain/study.aggregate';
 import {
   DuplicatedAccessionNumberError,

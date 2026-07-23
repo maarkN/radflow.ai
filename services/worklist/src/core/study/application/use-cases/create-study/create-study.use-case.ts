@@ -1,7 +1,7 @@
-import type { IClock } from '../../../../shared/domain/clock.interface';
-import type { IUnitOfWork } from '../../../../shared/domain/repository/unit-of-work.interface';
-import { EntityValidationError } from '../../../../shared/domain/validators/validation.error';
-import type { IUseCase } from '../../../../shared/application/use-case.interface';
+import type { IClock } from '@radflow/ddd';
+import type { IUnitOfWork } from '@radflow/ddd';
+import { EntityValidationError } from '@radflow/ddd';
+import type { IUseCase } from '@radflow/ddd';
 import { SlaPolicy } from '../../../domain/sla-policy';
 import { Study } from '../../../domain/study.aggregate';
 import type { IStudyRepository } from '../../../domain/study.repository';

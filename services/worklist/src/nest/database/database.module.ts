@@ -1,9 +1,9 @@
 import { Global, Module, Scope } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
-import { UnitOfWorkTypeOrm } from '../../core/shared/infra/db/typeorm/unit-of-work-typeorm';
-import { OutboxModel } from '../../core/shared/infra/db/typeorm/outbox.model';
-import { CreateOutboxTable1753200000001 } from '../../core/shared/infra/db/typeorm/migrations/1753200000001-create-outbox-table';
+import { UnitOfWorkTypeOrm } from '@radflow/ddd';
+import { OutboxModel } from '@radflow/ddd';
+import { CreateOutboxTable1753200000001 } from '@radflow/ddd';
 import { StudyModel } from '../../core/study/infra/db/typeorm/study.model';
 import { CreateStudiesTable1753200000000 } from '../../core/study/infra/db/typeorm/migrations/1753200000000-create-studies-table';
 import type { EnvDto } from '../../config/env.dto';

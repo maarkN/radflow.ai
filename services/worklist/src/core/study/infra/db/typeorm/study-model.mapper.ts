@@ -1,6 +1,6 @@
 import { modalitySchema, prioritySchema, studyStatusSchema } from '@radflow/shared';
 import type { Modality, Priority, StudyStatus } from '@radflow/shared';
-import { LoadEntityError } from '../../../../shared/domain/validators/validation.error';
+import { LoadEntityError } from '@radflow/ddd';
 import { Study } from '../../../domain/study.aggregate';
 import { RadiologistId, ReportId, StudyId } from '../../../domain/value-objects/ids.vo';
 import { StudyModel } from './study.model';

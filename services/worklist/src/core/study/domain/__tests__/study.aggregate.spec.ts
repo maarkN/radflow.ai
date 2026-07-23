@@ -1,4 +1,4 @@
-import { InvalidStateTransitionError } from '../../../shared/domain/errors/invalid-state-transition.error';
+import { InvalidStateTransitionError } from '@radflow/ddd';
 import {
   StudyClaimedEvent,
   StudyDictatedEvent,

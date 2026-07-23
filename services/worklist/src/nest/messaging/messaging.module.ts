@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { NatsJetStreamPublisher } from '@radflow/messaging';
-import { OutboxRelay } from '../../core/shared/infra/messaging/outbox-relay';
+import { OutboxRelay } from '@radflow/ddd';
 import type { EnvDto } from '../../config/env.dto';
 import { OrmConsumerService } from './orm.consumer';
 

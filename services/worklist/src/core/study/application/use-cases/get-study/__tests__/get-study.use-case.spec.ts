@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../../../../shared/domain/errors/not-found.error';
+import { NotFoundError } from '@radflow/ddd';
 import { StudyFakeBuilder } from '../../../../domain/study-fake.builder';
 import { StudyInMemoryRepository } from '../../../../infra/db/in-memory/study-in-memory.repository';
 import { StudyId } from '../../../../domain/value-objects/ids.vo';

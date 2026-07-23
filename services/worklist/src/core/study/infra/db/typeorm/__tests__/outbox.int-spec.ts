@@ -3,17 +3,17 @@ import type { StartedTestContainer } from 'testcontainers';
 import { Subjects, studyOrderedEventSchema } from '@radflow/shared';
 import { connect } from 'nats';
 import type { NatsConnection } from 'nats';
-import { CreateStudiesTable1753200000000 } from '../../../../../study/infra/db/typeorm/migrations/1753200000000-create-studies-table';
-import { StudyModel } from '../../../../../study/infra/db/typeorm/study.model';
-import { StudyTypeOrmRepository } from '../../../../../study/infra/db/typeorm/study-typeorm.repository';
-import { Study } from '../../../../../study/domain/study.aggregate';
-import { StudyFakeBuilder } from '../../../../../study/domain/study-fake.builder';
-import { setupTypeOrm } from '../../../testing/typeorm-helpers';
+import { CreateStudiesTable1753200000000 } from '../migrations/1753200000000-create-studies-table';
+import { StudyModel } from '../study.model';
+import { StudyTypeOrmRepository } from '../study-typeorm.repository';
+import { Study } from '../../../../domain/study.aggregate';
+import { StudyFakeBuilder } from '../../../../domain/study-fake.builder';
+import { setupTypeOrm } from '@radflow/ddd/dist/infra/testing/typeorm-helpers';
 import { NatsJetStreamPublisher, RADFLOW_STREAM } from '@radflow/messaging';
-import { OutboxRelay } from '../../../messaging/outbox-relay';
-import { CreateOutboxTable1753200000001 } from '../migrations/1753200000001-create-outbox-table';
-import { OutboxModel } from '../outbox.model';
-import { UnitOfWorkTypeOrm } from '../unit-of-work-typeorm';
+import { OutboxRelay } from '@radflow/ddd';
+import { CreateOutboxTable1753200000001 } from '@radflow/ddd';
+import { OutboxModel } from '@radflow/ddd';
+import { UnitOfWorkTypeOrm } from '@radflow/ddd';
 
 jest.setTimeout(240_000);
 

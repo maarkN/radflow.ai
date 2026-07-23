@@ -1,7 +1,7 @@
 import type { Modality, Priority, StudyStatus } from '@radflow/shared';
-import type { ISearchableRepository } from '../../shared/domain/repository/repository.interface';
-import { SearchParams } from '../../shared/domain/repository/search-params';
-import { SearchResult } from '../../shared/domain/repository/search-result';
+import type { ISearchableRepository } from '@radflow/ddd';
+import { SearchParams } from '@radflow/ddd';
+import { SearchResult } from '@radflow/ddd';
 import type { Study } from './study.aggregate';
 import type { StudyId } from './value-objects/ids.vo';
 

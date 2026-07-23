@@ -1,6 +1,6 @@
-import { InvalidStateTransitionError } from '../../../../../shared/domain/errors/invalid-state-transition.error';
-import { NotFoundError } from '../../../../../shared/domain/errors/not-found.error';
-import { FakeUnitOfWork } from '../../../../../shared/infra/testing/fake-unit-of-work';
+import { InvalidStateTransitionError } from '@radflow/ddd';
+import { NotFoundError } from '@radflow/ddd';
+import { FakeUnitOfWork } from '@radflow/ddd';
 import { StudyFakeBuilder } from '../../../../domain/study-fake.builder';
 import { StudyInMemoryRepository } from '../../../../infra/db/in-memory/study-in-memory.repository';
 import { RadiologistId } from '../../../../domain/value-objects/ids.vo';
