@@ -79,3 +79,133 @@ main {
 .empty-state {
   color: var(--text-muted);
 }
+
+.page-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.mono {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.85em;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.alert {
+  background: #fdecea;
+  border: 1px solid #f5c6c0;
+  color: #a4322a;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.filters select {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+table.worklist {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.worklist th,
+.worklist td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.worklist th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.worklist tr.row-mine {
+  background: #f0f5ff;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.badge-stat {
+  background: #fdecea;
+  color: #a4322a;
+}
+
+.badge-urgent {
+  background: #fff4e0;
+  color: #9a6200;
+}
+
+.badge-routine {
+  background: #eef1f4;
+  color: var(--text-muted);
+}
+
+.sla-risk {
+  color: #9a6200;
+  font-weight: 700;
+}
+
+.sla-overdue {
+  color: #a4322a;
+  font-weight: 700;
+}
+
+.status {
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.worklist button {
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.worklist button.secondary {
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.worklist button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
