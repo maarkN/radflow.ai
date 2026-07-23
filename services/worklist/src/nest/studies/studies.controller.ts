@@ -1,6 +1,7 @@
 import { Body, Controller, Get, HttpCode, Inject, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
 import { ClaimStudyUseCase } from '../../core/study/application/use-cases/claim-study/claim-study.use-case';
 import { CreateStudyUseCase } from '../../core/study/application/use-cases/create-study/create-study.use-case';
+import { GetStudyUseCase } from '../../core/study/application/use-cases/get-study/get-study.use-case';
 import { ListStudiesUseCase } from '../../core/study/application/use-cases/list-studies/list-studies.use-case';
 import { ReleaseStudyUseCase } from '../../core/study/application/use-cases/release-study/release-study.use-case';
 import { ClaimStudyRequestDto } from './dto/claim-study.request.dto';
@@ -15,7 +16,14 @@ export class StudiesController {
     @Inject(ClaimStudyUseCase) private readonly claimStudy: ClaimStudyUseCase,
     @Inject(ReleaseStudyUseCase) private readonly releaseStudy: ReleaseStudyUseCase,
     @Inject(ListStudiesUseCase) private readonly listStudies: ListStudiesUseCase,
+    @Inject(GetStudyUseCase) private readonly getStudy: GetStudyUseCase,
   ) {}
+
+  @Get(':id')
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<StudyPresenter> {
+    const output = await this.getStudy.execute({ studyId: id });
+    return new StudyPresenter(output);
+  }
 
   @Post()
   async create(@Body() dto: CreateStudyRequestDto): Promise<StudyPresenter> {

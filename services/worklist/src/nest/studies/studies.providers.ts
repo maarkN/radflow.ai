@@ -6,6 +6,7 @@ import type { IClock } from '../../core/shared/domain/clock.interface';
 import type { IUnitOfWork } from '../../core/shared/domain/repository/unit-of-work.interface';
 import { ClaimStudyUseCase } from '../../core/study/application/use-cases/claim-study/claim-study.use-case';
 import { CreateStudyUseCase } from '../../core/study/application/use-cases/create-study/create-study.use-case';
+import { GetStudyUseCase } from '../../core/study/application/use-cases/get-study/get-study.use-case';
 import { ListStudiesUseCase } from '../../core/study/application/use-cases/list-studies/list-studies.use-case';
 import { ReleaseStudyUseCase } from '../../core/study/application/use-cases/release-study/release-study.use-case';
 import type { IStudyRepository } from '../../core/study/domain/study.repository';
@@ -43,6 +44,12 @@ export const STUDY_PROVIDERS: Record<string, Provider> = {
     useFactory: (repository: IStudyRepository, unitOfWork: IUnitOfWork) =>
       new ReleaseStudyUseCase(repository, unitOfWork),
     inject: ['StudyRepository', 'UnitOfWork'],
+  },
+  GET_STUDY_USE_CASE: {
+    provide: GetStudyUseCase,
+    scope: Scope.REQUEST,
+    useFactory: (repository: IStudyRepository) => new GetStudyUseCase(repository),
+    inject: ['StudyRepository'],
   },
   LIST_STUDIES_USE_CASE: {
     provide: ListStudiesUseCase,
