@@ -12,6 +12,7 @@
     "test:e2e": "jest --config test/jest-e2e.config.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@nestjs/common": "^11.1.5",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.5",
