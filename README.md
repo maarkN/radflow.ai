@@ -11,6 +11,8 @@ rascunho — integrado a sistemas clínicos via HL7 e DICOM.
 > ⚠️ **Demo project / Projeto de demonstração.** Synthetic patients and generated DICOM only.
 > **No real PHI, ever.** / Somente pacientes sintéticos e DICOM gerado. **Nenhum PHI real.**
 
+![RadFlow journey: login → claim → dictate → AI draft with critical finding → sign → admin KPIs](docs/media/radflow-journey.gif)
+
 ## Architecture / Arquitetura
 
 ```
