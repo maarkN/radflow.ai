@@ -22,8 +22,10 @@ export * from './application/pagination-output';
 
 // Infra: transactional outbox over TypeORM
 export * from './infra/db/typeorm/outbox.model';
+export * from './infra/db/typeorm/audit-log.model';
 export * from './infra/db/typeorm/unit-of-work-typeorm';
 export * from './infra/db/typeorm/migrations/1753200000001-create-outbox-table';
+export * from './infra/db/typeorm/migrations/1753200000002-create-audit-log-table';
 export * from './infra/messaging/outbox-relay';
 
 // Testing helpers (FakeUnitOfWork is dependency-free; heavier helpers —

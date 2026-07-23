@@ -3,7 +3,8 @@ import type { DataSource, EntityManager } from 'typeorm';
 import { eventSchemaBySubject } from '@radflow/shared';
 import type { Subject } from '@radflow/shared';
 import type { AggregateRoot } from '../../../domain/aggregate-root';
-import type { IUnitOfWork } from '../../../domain/repository/unit-of-work.interface';
+import type { AuditEntry, IUnitOfWork } from '../../../domain/repository/unit-of-work.interface';
+import { AuditLogModel } from './audit-log.model';
 import { OutboxModel } from './outbox.model';
 
 export class InvalidIntegrationEventError extends Error {
@@ -22,6 +23,7 @@ export class InvalidIntegrationEventError extends Error {
 export class UnitOfWorkTypeOrm implements IUnitOfWork {
   private manager: EntityManager | null = null;
   private aggregateRoots: AggregateRoot[] = [];
+  private auditEntries: AuditEntry[] = [];
 
   constructor(
     private readonly dataSource: DataSource,
@@ -37,11 +39,13 @@ export class UnitOfWorkTypeOrm implements IUnitOfWork {
         this.manager = manager;
         const result = await workFn(this);
         await this.persistOutbox(manager);
+        await this.persistAudit(manager);
         return result;
       });
     } finally {
       this.manager = null;
       this.aggregateRoots = [];
+      this.auditEntries = [];
     }
   }
 
@@ -51,6 +55,29 @@ export class UnitOfWorkTypeOrm implements IUnitOfWork {
 
   getAggregateRoots(): readonly AggregateRoot[] {
     return this.aggregateRoots;
+  }
+
+  recordAudit(entry: AuditEntry): void {
+    this.auditEntries.push(entry);
+  }
+
+  private async persistAudit(manager: EntityManager): Promise<void> {
+    if (this.auditEntries.length === 0) {
+      return;
+    }
+    const rows = this.auditEntries.map((entry) => {
+      const row = new AuditLogModel();
+      row.auditId = randomUUID();
+      row.actor = entry.actor;
+      row.action = entry.action;
+      row.entityType = entry.entityType;
+      row.entityId = entry.entityId;
+      row.detail = entry.detail ?? null;
+      row.origin = entry.origin;
+      row.occurredOn = new Date();
+      return row;
+    });
+    await manager.getRepository(AuditLogModel).save(rows);
   }
 
   getTransaction(): EntityManager | null {
