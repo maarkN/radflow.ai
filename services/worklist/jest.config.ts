@@ -18,6 +18,7 @@ const config: Config = {
     ],
   },
   setupFiles: ['reflect-metadata'],
+  setupFilesAfterEnv: ['<rootDir>/core/shared/infra/testing/expect-helpers.ts'],
   clearMocks: true,
   testEnvironment: 'node',
   collectCoverageFrom: ['**/*.ts', '!**/__tests__/**', '!main.ts'],
