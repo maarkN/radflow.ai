@@ -5,6 +5,7 @@ from pydantic import ValidationError
 
 from report_ai.contracts.events import (
     EventEnvelope,
+    Hl7OrmReceivedPayload,
     ReportDraftReadyPayload,
     ReportSections,
     StudyOrderedPayload,
@@ -62,6 +63,20 @@ def test_study_ordered_rejects_unknown_modality() -> None:
     raw["modality"] = "XR"
     with pytest.raises(ValidationError):
         StudyOrderedPayload.model_validate(raw)
+
+
+def test_hl7_orm_received_parses_wire_format_with_optionals_absent() -> None:
+    payload = Hl7OrmReceivedPayload.model_validate(
+        {
+            "accessionNumber": "ACC-1",
+            "patientName": "DOE^JOHN",
+            "modality": "CT",
+            "priority": "stat",
+            "orderedAt": "2026-07-23T12:00:00Z",
+        }
+    )
+    assert payload.placer_order_number is None
+    assert payload.priority == "stat"
 
 
 def test_report_draft_ready_serializes_to_camel_case() -> None:

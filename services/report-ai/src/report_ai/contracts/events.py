@@ -67,5 +67,17 @@ class ReportDraftReadyPayload(CamelModel):
     drafted_at: AwareDatetime
 
 
+class Hl7OrmReceivedPayload(CamelModel):
+    accession_number: str = Field(min_length=1, max_length=64)
+    patient_name: str = Field(min_length=1, max_length=255)
+    modality: Modality
+    priority: Priority
+    ordered_at: AwareDatetime
+    placer_order_number: str | None = None
+    sending_facility: str | None = None
+
+
 SUBJECT_REPORT_DRAFT_REQUESTED = "radflow.report.draft_requested"
 SUBJECT_REPORT_DRAFT_READY = "radflow.report.draft_ready"
+SUBJECT_HL7_ORM_RECEIVED = "radflow.hl7.orm_received"
+DLQ_PREFIX = "radflow.dlq."

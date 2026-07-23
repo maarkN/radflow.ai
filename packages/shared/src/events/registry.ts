@@ -1,4 +1,5 @@
 import type { z } from 'zod';
+import { hl7OrmReceivedEventSchema } from './hl7.events';
 import {
   reportDraftReadyEventSchema,
   reportDraftRequestedEventSchema,
@@ -27,4 +28,5 @@ export const eventSchemaBySubject = {
   [Subjects.StudyCriticalFinding]: studyCriticalFindingEventSchema,
   [Subjects.ReportDraftRequested]: reportDraftRequestedEventSchema,
   [Subjects.ReportDraftReady]: reportDraftReadyEventSchema,
+  [Subjects.Hl7OrmReceived]: hl7OrmReceivedEventSchema,
 } as const satisfies Record<Subject, z.ZodType>;
