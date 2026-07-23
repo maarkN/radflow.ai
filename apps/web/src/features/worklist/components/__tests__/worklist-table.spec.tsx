@@ -29,6 +29,7 @@ describe('WorklistTable', () => {
         radiologistId={ME}
         onClaim={onClaim}
         onRelease={vi.fn()}
+        onViewImages={vi.fn()}
         busy={false}
       />,
     );
@@ -46,11 +47,28 @@ describe('WorklistTable', () => {
         radiologistId={ME}
         onClaim={vi.fn()}
         onRelease={vi.fn()}
+        onViewImages={vi.fn()}
         busy={false}
       />,
     );
     expect(screen.getByRole('button', { name: 'Release' })).toBeInTheDocument();
     expect(screen.getByText('claimed')).toBeInTheDocument();
+  });
+
+  it('opens the viewer for the study accession', () => {
+    const onViewImages = vi.fn();
+    render(
+      <WorklistTable
+        studies={[study({ accessionNumber: 'ACC-IMG' })]}
+        radiologistId={ME}
+        onClaim={vi.fn()}
+        onRelease={vi.fn()}
+        onViewImages={onViewImages}
+        busy={false}
+      />,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Images' }));
+    expect(onViewImages).toHaveBeenCalledWith('ACC-IMG');
   });
 
   it('renders the empty state without studies', () => {
@@ -60,6 +78,7 @@ describe('WorklistTable', () => {
         radiologistId={ME}
         onClaim={vi.fn()}
         onRelease={vi.fn()}
+        onViewImages={vi.fn()}
         busy={false}
       />,
     );

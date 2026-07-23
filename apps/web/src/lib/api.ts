@@ -71,3 +71,15 @@ export async function releaseStudy(studyId: string, radiologistId: string): Prom
   });
   await handle(response);
 }
+
+export type DicomStudyRef = {
+  accessionNumber: string;
+  studyInstanceUid: string;
+  viewerUrl: string;
+};
+
+export async function getDicomStudy(accessionNumber: string): Promise<DicomStudyRef> {
+  const response = await fetch(`${API_URL}/dicom/studies/${accessionNumber}`);
+  const body = await handle<{ data: DicomStudyRef }>(response);
+  return body.data;
+}

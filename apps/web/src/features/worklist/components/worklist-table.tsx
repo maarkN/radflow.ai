@@ -7,10 +7,18 @@ type Props = {
   radiologistId: string;
   onClaim: (studyId: string) => void;
   onRelease: (studyId: string) => void;
+  onViewImages: (accessionNumber: string) => void;
   busy: boolean;
 };
 
-export function WorklistTable({ studies, radiologistId, onClaim, onRelease, busy }: Props) {
+export function WorklistTable({
+  studies,
+  radiologistId,
+  onClaim,
+  onRelease,
+  onViewImages,
+  busy,
+}: Props) {
   if (studies.length === 0) {
     return <p className="empty-state">No studies match the current filters.</p>;
   }
@@ -61,6 +69,13 @@ export function WorklistTable({ studies, radiologistId, onClaim, onRelease, busy
                 {study.status === 'in_progress' && !isMine && (
                   <span className="muted">claimed</span>
                 )}
+                <button
+                  className="ghost"
+                  onClick={() => onViewImages(study.accessionNumber)}
+                  title="Open in the OHIF viewer"
+                >
+                  Images
+                </button>
               </td>
             </tr>
           );

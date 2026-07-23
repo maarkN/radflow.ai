@@ -209,3 +209,15 @@ table.worklist {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.worklist button.ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border);
+  margin-left: 0.4rem;
+}
+
+.worklist button.ghost:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
