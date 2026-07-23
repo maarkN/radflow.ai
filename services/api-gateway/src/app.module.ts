@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { validateEnv } from './config/env.validation';
+import { DicomProxyController, Hl7ProxyController } from './nest/dicom/dicom-proxy.controller';
 import { EventsGateway } from './nest/events/events.gateway';
 import { HealthModule } from './nest/health/health.module';
 import { StudiesProxyController } from './nest/studies/studies-proxy.controller';
@@ -14,7 +15,7 @@ import { StudiesProxyController } from './nest/studies/studies-proxy.controller'
     }),
     HealthModule,
   ],
-  controllers: [StudiesProxyController],
+  controllers: [StudiesProxyController, DicomProxyController, Hl7ProxyController],
   providers: [EventsGateway],
 })
 export class AppModule {}

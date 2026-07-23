@@ -21,5 +21,8 @@ export class EnvDto {
   WORKLIST_URL: string = 'http://localhost:3001';
 
   @IsString()
+  INTEGRATION_URL: string = 'http://localhost:3002';
+
+  @IsString()
   NATS_URL: string = 'nats://localhost:4222';
 }

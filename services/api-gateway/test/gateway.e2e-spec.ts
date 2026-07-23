@@ -32,6 +32,11 @@ describe('API gateway (e2e)', () => {
         res.end(JSON.stringify({ data: [{ id: 'stub-study' }], meta: { total: 1 } }));
         return;
       }
+      if (req.method === 'GET' && req.url?.startsWith('/dicom/studies/')) {
+        res.writeHead(200);
+        res.end(JSON.stringify({ data: { viewerUrl: 'http://stub/ohif/viewer?x=1' } }));
+        return;
+      }
       if (req.method === 'POST' && req.url?.endsWith('/claim')) {
         res.writeHead(409);
         res.end(JSON.stringify({ statusCode: 409, error: 'Conflict', message: 'stub conflict' }));
@@ -45,6 +50,7 @@ describe('API gateway (e2e)', () => {
 
     process.env.NATS_URL = `nats://${natsContainer.getHost()}:${natsContainer.getMappedPort(4222)}`;
     process.env.WORKLIST_URL = `http://127.0.0.1:${stubPort}`;
+    process.env.INTEGRATION_URL = `http://127.0.0.1:${stubPort}`;
 
     const { AppModule } = await import('../src/app.module');
     const { applyGlobalConfig } = await import('../src/nest/global-config');
@@ -80,6 +86,13 @@ describe('API gateway (e2e)', () => {
 
   it('keeps /health outside the /api/v1 prefix', async () => {
     await request(app.getHttpServer()).get('/health').expect(200);
+  });
+
+  it('proxies GET /api/v1/dicom/studies/:accession to the integration service', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/dicom/studies/ACC-1')
+      .expect(200);
+    expect(response.body.data.viewerUrl).toContain('/ohif/viewer');
   });
 
   it('re-emits NATS events to websocket clients as study.event', async () => {
