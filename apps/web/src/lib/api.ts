@@ -134,6 +134,21 @@ export function signReport(reportId: string, radiologistId: string): Promise<Rep
   });
 }
 
+export type WorklistStats = {
+  queueByStatus: Record<Study['status'], number>;
+  slaAtRiskCount: number;
+  slaBreachedCount: number;
+  avgTurnaroundMinutes: number | null;
+  orderedLastHour: number;
+  signedLastHour: number;
+};
+
+export async function getWorklistStats(): Promise<WorklistStats> {
+  const response = await fetch(`${API_URL}/studies/stats`, { headers: authHeaders() });
+  const body = await handle<{ data: WorklistStats }>(response);
+  return body.data;
+}
+
 export type DicomStudyRef = {
   accessionNumber: string;
   studyInstanceUid: string;
