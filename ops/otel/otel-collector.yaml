@@ -9,6 +9,11 @@ receivers:
 processors:
   batch: {}
 
+connectors:
+  # Deriva métricas RED (rate/errors/duration) dos spans recebidos.
+  spanmetrics:
+    namespace: radflow
+
 exporters:
   debug:
     verbosity: basic
@@ -24,8 +29,8 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp/jaeger, debug]
+      exporters: [otlp/jaeger, spanmetrics, debug]
     metrics:
-      receivers: [otlp]
+      receivers: [otlp, spanmetrics]
       processors: [batch]
       exporters: [prometheus]
