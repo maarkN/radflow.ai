@@ -8,5 +8,8 @@
   "DicomWeb": {
     "Enable": true,
     "Root": "/dicom-web/"
+  },
+  "OHIF": {
+    "DataSource": "dicom-web"
   }
 }

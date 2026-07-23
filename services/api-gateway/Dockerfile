@@ -6,7 +6,6 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
 COPY packages ./packages
 COPY services/api-gateway ./services/api-gateway
 RUN pnpm install --frozen-lockfile --filter @radflow/api-gateway... \
-  && pnpm --filter @radflow/shared run build \
   && pnpm --filter @radflow/api-gateway run build \
   && pnpm --filter @radflow/api-gateway deploy --prod --legacy /out
 

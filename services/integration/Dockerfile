@@ -7,6 +7,7 @@ COPY packages ./packages
 COPY services/integration ./services/integration
 RUN pnpm install --frozen-lockfile --filter @radflow/integration... \
   && pnpm --filter @radflow/shared run build \
+  && pnpm --filter @radflow/messaging run build \
   && pnpm --filter @radflow/integration run build \
   && pnpm --filter @radflow/integration deploy --prod --legacy /out
 

@@ -12,6 +12,7 @@ import { generateOrder } from './feeder/generate-order';
  */
 async function main(): Promise<void> {
   const { values } = parseArgs({
+    allowPositionals: true,
     options: {
       rate: { type: 'string', default: '20' },
       duration: { type: 'string', default: '120' },
