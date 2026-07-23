@@ -28,4 +28,7 @@ export class EnvDto {
 
   @IsString()
   NATS_URL: string = 'nats://localhost:4222';
+
+  @IsString()
+  JWT_SECRET: string = 'radflow-demo-secret-change-me';
 }

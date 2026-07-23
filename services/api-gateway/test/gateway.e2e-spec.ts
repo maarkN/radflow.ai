@@ -19,6 +19,9 @@ describe('API gateway (e2e)', () => {
   let natsConnection: NatsConnection;
   let worklistStub: HttpServer;
   let socket: Socket;
+  let radiologistToken: string;
+  let adminToken: string;
+  let techToken: string;
 
   beforeAll(async () => {
     natsContainer = await new GenericContainer('nats:2.12-alpine')
@@ -30,6 +33,11 @@ describe('API gateway (e2e)', () => {
       if (req.method === 'GET' && req.url?.startsWith('/studies')) {
         res.writeHead(200);
         res.end(JSON.stringify({ data: [{ id: 'stub-study' }], meta: { total: 1 } }));
+        return;
+      }
+      if (req.method === 'GET' && req.url?.startsWith('/audit')) {
+        res.writeHead(200);
+        res.end(JSON.stringify([{ action: 'study.claimed', actor: 'stub' }]));
         return;
       }
       if (req.method === 'GET' && req.url?.startsWith('/dicom/studies/')) {
@@ -62,6 +70,17 @@ describe('API gateway (e2e)', () => {
     await app.listen(0);
 
     natsConnection = await connect({ servers: process.env.NATS_URL });
+
+    const login = async (username: string, password: string) => {
+      const response = await request(app.getHttpServer())
+        .post('/api/v1/auth/login')
+        .send({ username, password })
+        .expect(200);
+      return response.body.data.token as string;
+    };
+    radiologistToken = await login('ana', 'ana');
+    adminToken = await login('admin', 'admin');
+    techToken = await login('tech', 'tech');
   }, 240_000);
 
   afterAll(async () => {
@@ -72,14 +91,49 @@ describe('API gateway (e2e)', () => {
     await natsContainer?.stop();
   }, 60_000);
 
-  it('proxies GET /api/v1/studies to the worklist service', async () => {
-    const response = await request(app.getHttpServer()).get('/api/v1/studies').expect(200);
+  it('rejects unauthenticated requests with 401', async () => {
+    await request(app.getHttpServer()).get('/api/v1/studies').expect(401);
+  });
+
+  it('rejects an invalid login with 401', async () => {
+    await request(app.getHttpServer())
+      .post('/api/v1/auth/login')
+      .send({ username: 'ana', password: 'wrong' })
+      .expect(401);
+  });
+
+  it('proxies GET /api/v1/studies for any authenticated role', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/studies')
+      .set('Authorization', `Bearer ${techToken}`)
+      .expect(200);
     expect(response.body.data[0].id).toBe('stub-study');
   });
 
-  it('passes upstream error statuses through unchanged', async () => {
+  it('RBAC: a technologist cannot claim a study (403)', async () => {
     await request(app.getHttpServer())
       .post('/api/v1/studies/some-id/claim')
+      .set('Authorization', `Bearer ${techToken}`)
+      .send({ radiologistId: 'x' })
+      .expect(403);
+  });
+
+  it('RBAC: only admin reads the audit trail', async () => {
+    await request(app.getHttpServer())
+      .get('/api/v1/audit/worklist')
+      .set('Authorization', `Bearer ${radiologistToken}`)
+      .expect(403);
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/audit/worklist')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200);
+    expect(response.body[0].action).toBe('study.claimed');
+  });
+
+  it('passes upstream error statuses through unchanged (radiologist claim)', async () => {
+    await request(app.getHttpServer())
+      .post('/api/v1/studies/some-id/claim')
+      .set('Authorization', `Bearer ${radiologistToken}`)
       .send({ radiologistId: 'x' })
       .expect(409);
   });
@@ -91,6 +145,7 @@ describe('API gateway (e2e)', () => {
   it('proxies GET /api/v1/dicom/studies/:accession to the integration service', async () => {
     const response = await request(app.getHttpServer())
       .get('/api/v1/dicom/studies/ACC-1')
+      .set('Authorization', `Bearer ${radiologistToken}`)
       .expect(200);
     expect(response.body.data.viewerUrl).toContain('/ohif/viewer');
   });

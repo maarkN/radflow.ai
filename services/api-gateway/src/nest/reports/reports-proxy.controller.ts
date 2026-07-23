@@ -1,4 +1,5 @@
-import { All, Controller, Inject, Req, Res } from '@nestjs/common';
+import { All, Controller, Inject, Req, Res, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard, Roles } from '../auth/auth.guard';
 import { ConfigService } from '@nestjs/config';
 import type { Request, Response } from 'express';
 import { proxyRequest } from '../shared/proxy';
@@ -6,6 +7,8 @@ import type { EnvDto } from '../../config/env.dto';
 
 /** Proxies the report/dictation API of the dictation service. */
 @Controller('reports')
+@UseGuards(JwtAuthGuard)
+@Roles('radiologist')
 export class ReportsProxyController {
   constructor(
     @Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>,
