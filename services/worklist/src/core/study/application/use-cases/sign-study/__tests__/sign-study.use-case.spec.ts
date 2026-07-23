@@ -37,6 +37,9 @@ describe('SignStudyUseCase', () => {
       .map((event) => event.getIntegrationEvent())
       .find((integration) => integration?.subject === Subjects.StudySigned);
     expect(signed?.payload.contentHash).toBe('sha256:abc');
+    expect(unitOfWork.getAuditEntries()).toEqual([
+      expect.objectContaining({ action: 'study.signed', actor: radiologistId.id }),
+    ]);
   });
 
   it('rejects signing by another radiologist', async () => {

@@ -25,13 +25,14 @@ export function createOrmHandler(dataSource: DataSource) {
     const event = hl7OrmReceivedEventSchema.parse(envelope);
     const unitOfWork = new UnitOfWorkTypeOrm(dataSource, () => event.correlationId);
     const repository = new StudyTypeOrmRepository(dataSource, unitOfWork);
-    const useCase = new CreateStudyUseCase(repository, unitOfWork, new SystemClock());
+    const useCase = new CreateStudyUseCase(repository, unitOfWork, new SystemClock(), 'orm-consumer');
     await useCase.execute({
       accessionNumber: event.payload.accessionNumber,
       patientName: event.payload.patientName,
       modality: event.payload.modality,
       priority: event.payload.priority,
       orderedAt: new Date(event.payload.orderedAt),
+      actor: 'hl7-feed',
     });
   };
 }

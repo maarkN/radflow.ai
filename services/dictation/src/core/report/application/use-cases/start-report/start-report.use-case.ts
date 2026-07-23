@@ -27,6 +27,14 @@ export class StartReportUseCase implements IUseCase<StartReportInput, ReportOutp
     await this.unitOfWork.do(async (uow) => {
       await this.reportRepository.insert(report);
       uow.addAggregateRoot(report);
+      uow.recordAudit({
+        actor: input.radiologistId,
+        action: 'report.started',
+        entityType: 'Report',
+        entityId: report.reportId.id,
+        detail: { studyId: input.studyId },
+        origin: 'dictation-api',
+      });
     });
     return ReportOutputMapper.toOutput(report);
   }

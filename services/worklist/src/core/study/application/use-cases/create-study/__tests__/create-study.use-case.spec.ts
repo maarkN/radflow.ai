@@ -32,6 +32,13 @@ describe('CreateStudyUseCase', () => {
     await expect(repository.findByAccessionNumber('ACC-2026-0001')).resolves.not.toBeNull();
   });
 
+  it('records the audit entry for the write', async () => {
+    await useCase.execute({ ...validInput, actor: 'hl7-feed' });
+    const entries = unitOfWork.getAuditEntries();
+    expect(entries).toHaveLength(1);
+    expect(entries[0]).toMatchObject({ action: 'study.created', actor: 'hl7-feed' });
+  });
+
   it('registers the aggregate on the unit of work so events reach the outbox', async () => {
     await useCase.execute(validInput);
     const aggregates = unitOfWork.getAggregateRoots();

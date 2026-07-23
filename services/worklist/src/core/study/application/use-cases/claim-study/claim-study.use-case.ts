@@ -25,6 +25,14 @@ export class ClaimStudyUseCase implements IUseCase<ClaimStudyInput, StudyOutput>
     await this.unitOfWork.do(async (uow) => {
       await this.studyRepository.update(study);
       uow.addAggregateRoot(study);
+      uow.recordAudit({
+        actor: input.radiologistId,
+        action: 'study.claimed',
+        entityType: 'Study',
+        entityId: study.studyId.id,
+        detail: { status: study.status },
+        origin: 'worklist-api',
+      });
     });
 
     return StudyOutputMapper.toOutput(study);

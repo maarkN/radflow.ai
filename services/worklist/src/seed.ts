@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { SystemClock } from '@radflow/ddd';
-import { CreateOutboxTable1753200000001 } from '@radflow/ddd';
+import { CreateAuditLogTable1753200000002, CreateOutboxTable1753200000001 } from '@radflow/ddd';
+import { AuditLogModel } from '@radflow/ddd';
 import { OutboxModel } from '@radflow/ddd';
 import { UnitOfWorkTypeOrm } from '@radflow/ddd';
 import { CreateStudyUseCase } from './core/study/application/use-cases/create-study/create-study.use-case';
@@ -15,8 +16,12 @@ async function main(): Promise<void> {
   const dataSource = new DataSource({
     type: 'postgres',
     url: process.env.DATABASE_URL ?? 'postgresql://radflow:radflow@localhost:5434/radflow',
-    entities: [StudyModel, OutboxModel],
-    migrations: [CreateStudiesTable1753200000000, CreateOutboxTable1753200000001],
+    entities: [StudyModel, OutboxModel, AuditLogModel],
+    migrations: [
+      CreateStudiesTable1753200000000,
+      CreateOutboxTable1753200000001,
+      CreateAuditLogTable1753200000002,
+    ],
     migrationsRun: true,
   });
   await dataSource.initialize();
@@ -26,7 +31,7 @@ async function main(): Promise<void> {
     const unitOfWork = new UnitOfWorkTypeOrm(dataSource);
     const repository = new StudyTypeOrmRepository(dataSource, unitOfWork);
     const useCase = new CreateStudyUseCase(repository, unitOfWork, new SystemClock());
-    const output = await useCase.execute(input);
+    const output = await useCase.execute({ ...input, actor: 'seed' });
     if (output.created) {
       created += 1;
     }

@@ -6,4 +6,6 @@ export type CreateStudyInput = {
   modality: Modality;
   priority: Priority;
   orderedAt?: Date;
+  /** Who/what created the study (e.g. 'hl7-feed', 'seed', a user id). */
+  actor?: string;
 };

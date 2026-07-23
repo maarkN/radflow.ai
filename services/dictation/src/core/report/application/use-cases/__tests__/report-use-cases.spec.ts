@@ -131,6 +131,8 @@ describe('report use cases', () => {
     expect(signed.status).toBe('signed');
     expect(worklist.calls[0]).toContain('dictate:');
     expect(worklist.calls[1]).toContain('sign:');
+    const auditActions = unitOfWork.getAuditEntries().map((entry) => entry.action);
+    expect(auditActions).toContain('report.signed');
   });
 
   it('retrying sign after a worklist failure completes without re-dictating', async () => {

@@ -49,6 +49,14 @@ export class GenerateDraftUseCase implements IUseCase<GenerateDraftInput, Report
     await this.unitOfWork.do(async (uow) => {
       await this.reportRepository.update(report);
       uow.addAggregateRoot(report);
+      uow.recordAudit({
+        actor: report.radiologistId.id,
+        action: 'report.draft_generated',
+        entityType: 'Report',
+        entityId: report.reportId.id,
+        detail: { provider: draft.provider, criticalFinding: draft.criticalFinding },
+        origin: 'dictation-api',
+      });
     });
 
     return ReportOutputMapper.toOutput(report);

@@ -29,6 +29,14 @@ export class MarkDictatedUseCase implements IUseCase<MarkDictatedInput, StudyOut
     await this.unitOfWork.do(async (uow) => {
       await this.studyRepository.update(study);
       uow.addAggregateRoot(study);
+      uow.recordAudit({
+        actor: input.radiologistId,
+        action: 'study.dictated',
+        entityType: 'Study',
+        entityId: study.studyId.id,
+        detail: { reportId: input.reportId },
+        origin: 'worklist-api',
+      });
     });
 
     return StudyOutputMapper.toOutput(study);

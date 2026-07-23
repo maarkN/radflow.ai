@@ -22,6 +22,13 @@ export class AttachTranscriptUseCase implements IUseCase<AttachTranscriptInput, 
     await this.unitOfWork.do(async (uow) => {
       await this.reportRepository.update(report);
       uow.addAggregateRoot(report);
+      uow.recordAudit({
+        actor: report.radiologistId.id,
+        action: 'report.transcript_attached',
+        entityType: 'Report',
+        entityId: report.reportId.id,
+        origin: 'dictation-api',
+      });
     });
     return ReportOutputMapper.toOutput(report);
   }

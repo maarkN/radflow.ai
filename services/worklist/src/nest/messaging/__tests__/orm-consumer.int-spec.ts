@@ -6,6 +6,7 @@ import type { NatsConnection } from 'nats';
 import { GenericContainer } from 'testcontainers';
 import type { StartedTestContainer } from 'testcontainers';
 import { setupTypeOrm } from '@radflow/ddd/dist/infra/testing/typeorm-helpers';
+import { AuditLogModel, CreateAuditLogTable1753200000002 } from '@radflow/ddd';
 import { CreateOutboxTable1753200000001 } from '@radflow/ddd';
 import { OutboxModel } from '@radflow/ddd';
 import { CreateStudiesTable1753200000000 } from '../../../core/study/infra/db/typeorm/migrations/1753200000000-create-studies-table';
@@ -43,8 +44,12 @@ const ormEnvelope = (accessionNumber: string) => ({
 
 describe('ORM consumer (integration PG + NATS)', () => {
   const context = setupTypeOrm({
-    entities: [StudyModel, OutboxModel],
-    migrations: [CreateStudiesTable1753200000000, CreateOutboxTable1753200000001],
+    entities: [StudyModel, OutboxModel, AuditLogModel],
+    migrations: [
+      CreateStudiesTable1753200000000,
+      CreateOutboxTable1753200000001,
+      CreateAuditLogTable1753200000002,
+    ],
     tables: ['studies', 'outbox'],
   });
 

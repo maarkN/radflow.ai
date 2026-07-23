@@ -19,6 +19,7 @@ export class CreateStudyUseCase implements IUseCase<CreateStudyInput, CreateStud
     private readonly studyRepository: IStudyRepository,
     private readonly unitOfWork: IUnitOfWork,
     private readonly clock: IClock,
+    private readonly origin: string = 'worklist-api',
   ) {}
 
   async execute(input: CreateStudyInput): Promise<CreateStudyOutput> {
@@ -44,6 +45,14 @@ export class CreateStudyUseCase implements IUseCase<CreateStudyInput, CreateStud
     await this.unitOfWork.do(async (uow) => {
       await this.studyRepository.insert(study);
       uow.addAggregateRoot(study);
+      uow.recordAudit({
+        actor: input.actor ?? 'system',
+        action: 'study.created',
+        entityType: 'Study',
+        entityId: study.studyId.id,
+        detail: { accessionNumber: study.accessionNumber, priority: study.priority },
+        origin: this.origin,
+      });
     });
 
     return { study: StudyOutputMapper.toOutput(study), created: true };

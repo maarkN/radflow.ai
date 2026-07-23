@@ -42,6 +42,14 @@ export class SignReportUseCase implements IUseCase<SignReportInput, ReportOutput
       await this.unitOfWork.do(async (uow) => {
         await this.reportRepository.update(report);
         uow.addAggregateRoot(report);
+        uow.recordAudit({
+          actor: input.radiologistId,
+          action: 'report.signed',
+          entityType: 'Report',
+          entityId: report.reportId.id,
+          detail: { contentHash: report.contentHash },
+          origin: 'dictation-api',
+        });
       });
     }
 

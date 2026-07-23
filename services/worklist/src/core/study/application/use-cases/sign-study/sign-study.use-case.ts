@@ -25,6 +25,14 @@ export class SignStudyUseCase implements IUseCase<SignStudyInput, StudyOutput> {
     await this.unitOfWork.do(async (uow) => {
       await this.studyRepository.update(study);
       uow.addAggregateRoot(study);
+      uow.recordAudit({
+        actor: input.radiologistId,
+        action: 'study.signed',
+        entityType: 'Study',
+        entityId: study.studyId.id,
+        detail: { contentHash: input.contentHash },
+        origin: 'worklist-api',
+      });
     });
 
     return StudyOutputMapper.toOutput(study);
