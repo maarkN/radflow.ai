@@ -8,7 +8,9 @@ import { ClaimStudyUseCase } from '../../core/study/application/use-cases/claim-
 import { CreateStudyUseCase } from '../../core/study/application/use-cases/create-study/create-study.use-case';
 import { GetStudyUseCase } from '../../core/study/application/use-cases/get-study/get-study.use-case';
 import { ListStudiesUseCase } from '../../core/study/application/use-cases/list-studies/list-studies.use-case';
+import { MarkDictatedUseCase } from '../../core/study/application/use-cases/mark-dictated/mark-dictated.use-case';
 import { ReleaseStudyUseCase } from '../../core/study/application/use-cases/release-study/release-study.use-case';
+import { SignStudyUseCase } from '../../core/study/application/use-cases/sign-study/sign-study.use-case';
 import type { IStudyRepository } from '../../core/study/domain/study.repository';
 import { StudyTypeOrmRepository } from '../../core/study/infra/db/typeorm/study-typeorm.repository';
 
@@ -43,6 +45,20 @@ export const STUDY_PROVIDERS: Record<string, Provider> = {
     scope: Scope.REQUEST,
     useFactory: (repository: IStudyRepository, unitOfWork: IUnitOfWork) =>
       new ReleaseStudyUseCase(repository, unitOfWork),
+    inject: ['StudyRepository', 'UnitOfWork'],
+  },
+  MARK_DICTATED_USE_CASE: {
+    provide: MarkDictatedUseCase,
+    scope: Scope.REQUEST,
+    useFactory: (repository: IStudyRepository, unitOfWork: IUnitOfWork) =>
+      new MarkDictatedUseCase(repository, unitOfWork),
+    inject: ['StudyRepository', 'UnitOfWork'],
+  },
+  SIGN_STUDY_USE_CASE: {
+    provide: SignStudyUseCase,
+    scope: Scope.REQUEST,
+    useFactory: (repository: IStudyRepository, unitOfWork: IUnitOfWork) =>
+      new SignStudyUseCase(repository, unitOfWork),
     inject: ['StudyRepository', 'UnitOfWork'],
   },
   GET_STUDY_USE_CASE: {

@@ -104,4 +104,60 @@ describe('Studies API (e2e)', () => {
       .send({ radiologistId: randomUUID() })
       .expect(404);
   });
+
+  it('full reporting flow: claim -> dictate -> sign -> signed is immutable', async () => {
+    const created = await request(context.app.getHttpServer())
+      .post('/studies')
+      .send(createPayload())
+      .expect(201);
+    const studyId = created.body.data.id;
+    const radiologistId = randomUUID();
+    const reportId = randomUUID();
+
+    await request(context.app.getHttpServer())
+      .post(`/studies/${studyId}/claim`)
+      .send({ radiologistId })
+      .expect(200);
+
+    const dictated = await request(context.app.getHttpServer())
+      .post(`/studies/${studyId}/dictate`)
+      .send({ reportId, radiologistId })
+      .expect(200);
+    expect(dictated.body.data.status).toBe('dictated');
+    expect(dictated.body.data.reportId).toBe(reportId);
+
+    const signed = await request(context.app.getHttpServer())
+      .post(`/studies/${studyId}/sign`)
+      .send({ radiologistId, contentHash: 'sha256:e2e' })
+      .expect(200);
+    expect(signed.body.data.status).toBe('signed');
+
+    await request(context.app.getHttpServer())
+      .post(`/studies/${studyId}/sign`)
+      .send({ radiologistId, contentHash: 'sha256:e2e' })
+      .expect(409);
+  });
+
+  it('rejects signing by a radiologist that does not hold the study with 403', async () => {
+    const created = await request(context.app.getHttpServer())
+      .post('/studies')
+      .send(createPayload())
+      .expect(201);
+    const studyId = created.body.data.id;
+    const radiologistId = randomUUID();
+
+    await request(context.app.getHttpServer())
+      .post(`/studies/${studyId}/claim`)
+      .send({ radiologistId })
+      .expect(200);
+    await request(context.app.getHttpServer())
+      .post(`/studies/${studyId}/dictate`)
+      .send({ reportId: randomUUID(), radiologistId })
+      .expect(200);
+
+    await request(context.app.getHttpServer())
+      .post(`/studies/${studyId}/sign`)
+      .send({ radiologistId: randomUUID(), contentHash: 'sha256:x' })
+      .expect(403);
+  });
 });

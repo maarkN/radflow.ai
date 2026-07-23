@@ -3,10 +3,14 @@ import { ClaimStudyUseCase } from '../../core/study/application/use-cases/claim-
 import { CreateStudyUseCase } from '../../core/study/application/use-cases/create-study/create-study.use-case';
 import { GetStudyUseCase } from '../../core/study/application/use-cases/get-study/get-study.use-case';
 import { ListStudiesUseCase } from '../../core/study/application/use-cases/list-studies/list-studies.use-case';
+import { MarkDictatedUseCase } from '../../core/study/application/use-cases/mark-dictated/mark-dictated.use-case';
 import { ReleaseStudyUseCase } from '../../core/study/application/use-cases/release-study/release-study.use-case';
+import { SignStudyUseCase } from '../../core/study/application/use-cases/sign-study/sign-study.use-case';
 import { ClaimStudyRequestDto } from './dto/claim-study.request.dto';
 import { CreateStudyRequestDto } from './dto/create-study.request.dto';
+import { MarkDictatedRequestDto } from './dto/mark-dictated.request.dto';
 import { SearchStudiesRequestDto } from './dto/search-studies.request.dto';
+import { SignStudyRequestDto } from './dto/sign-study.request.dto';
 import { StudyCollectionPresenter, StudyPresenter } from './studies.presenter';
 
 @Controller('studies')
@@ -17,7 +21,37 @@ export class StudiesController {
     @Inject(ReleaseStudyUseCase) private readonly releaseStudy: ReleaseStudyUseCase,
     @Inject(ListStudiesUseCase) private readonly listStudies: ListStudiesUseCase,
     @Inject(GetStudyUseCase) private readonly getStudy: GetStudyUseCase,
+    @Inject(MarkDictatedUseCase) private readonly markDictated: MarkDictatedUseCase,
+    @Inject(SignStudyUseCase) private readonly signStudy: SignStudyUseCase,
   ) {}
+
+  @Post(':id/dictate')
+  @HttpCode(200)
+  async dictate(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: MarkDictatedRequestDto,
+  ): Promise<StudyPresenter> {
+    const output = await this.markDictated.execute({
+      studyId: id,
+      reportId: dto.reportId,
+      radiologistId: dto.radiologistId,
+    });
+    return new StudyPresenter(output);
+  }
+
+  @Post(':id/sign')
+  @HttpCode(200)
+  async sign(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: SignStudyRequestDto,
+  ): Promise<StudyPresenter> {
+    const output = await this.signStudy.execute({
+      studyId: id,
+      radiologistId: dto.radiologistId,
+      contentHash: dto.contentHash,
+    });
+    return new StudyPresenter(output);
+  }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<StudyPresenter> {
