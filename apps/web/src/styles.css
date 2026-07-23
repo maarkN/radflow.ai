@@ -221,3 +221,84 @@ table.worklist {
   color: var(--accent);
   border-color: var(--accent);
 }
+
+.button-link {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  margin-right: 0.4rem;
+}
+
+.dictation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.dictation textarea {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.dictation button {
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.dictation button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dictation button.recording {
+  background: #a4322a;
+  border-color: #a4322a;
+}
+
+.dictation button.sign {
+  background: #1a7f4b;
+  border-color: #1a7f4b;
+}
+
+.section-editor {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.alert.critical {
+  background: #a4322a;
+  border-color: #a4322a;
+  color: #fff;
+  font-weight: 700;
+}
+
+.critical-feed ul {
+  list-style: none;
+  padding: 0;
+}
+
+.critical-item {
+  background: var(--surface);
+  border-left: 4px solid #a4322a;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.5rem;
+}

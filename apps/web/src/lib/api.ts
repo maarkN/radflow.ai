@@ -72,6 +72,69 @@ export async function releaseStudy(studyId: string, radiologistId: string): Prom
   await handle(response);
 }
 
+export type ReportSections = {
+  technique: string;
+  findings: string;
+  impression: string;
+};
+
+export type Report = {
+  id: string;
+  studyId: string;
+  radiologistId: string;
+  transcript: string | null;
+  sections: ReportSections | null;
+  criticalFinding: string | null;
+  provider: string | null;
+  status: 'draft' | 'signed';
+  contentHash: string | null;
+  signedAt: string | null;
+};
+
+async function reportRequest(path: string, init?: RequestInit): Promise<Report> {
+  const response = await fetch(`${API_URL}${path}`, {
+    headers: { 'content-type': 'application/json' },
+    ...init,
+  });
+  const body = await handle<{ data: Report }>(response);
+  return body.data;
+}
+
+export function startReport(studyId: string, radiologistId: string): Promise<Report> {
+  return reportRequest('/reports', {
+    method: 'POST',
+    body: JSON.stringify({ studyId, radiologistId }),
+  });
+}
+
+export function attachTranscript(reportId: string, transcript: string): Promise<Report> {
+  return reportRequest(`/reports/${reportId}/transcript`, {
+    method: 'PUT',
+    body: JSON.stringify({ transcript }),
+  });
+}
+
+export function generateDraft(reportId: string): Promise<Report> {
+  return reportRequest(`/reports/${reportId}/draft`, { method: 'POST' });
+}
+
+export function updateReport(
+  reportId: string,
+  sections: Partial<ReportSections>,
+): Promise<Report> {
+  return reportRequest(`/reports/${reportId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ sections }),
+  });
+}
+
+export function signReport(reportId: string, radiologistId: string): Promise<Report> {
+  return reportRequest(`/reports/${reportId}/sign`, {
+    method: 'POST',
+    body: JSON.stringify({ radiologistId }),
+  });
+}
+
 export type DicomStudyRef = {
   accessionNumber: string;
   studyInstanceUid: string;

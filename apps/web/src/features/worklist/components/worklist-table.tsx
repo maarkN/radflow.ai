@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type { Study } from '../../../lib/api';
 import { PriorityBadge } from './priority-badge';
 import { SlaCountdown } from './sla-countdown';
@@ -62,9 +63,18 @@ export function WorklistTable({
                   </button>
                 )}
                 {study.status === 'in_progress' && isMine && (
-                  <button disabled={busy} className="secondary" onClick={() => onRelease(study.id)}>
-                    Release
-                  </button>
+                  <>
+                    <Link className="button-link" to={`/dictate/${study.id}`}>
+                      Dictate
+                    </Link>
+                    <button
+                      disabled={busy}
+                      className="secondary"
+                      onClick={() => onRelease(study.id)}
+                    >
+                      Release
+                    </button>
+                  </>
                 )}
                 {study.status === 'in_progress' && !isMine && (
                   <span className="muted">claimed</span>
