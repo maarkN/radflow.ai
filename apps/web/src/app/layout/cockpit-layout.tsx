@@ -1,6 +1,13 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { getAuth, logout } from '../../lib/auth';
 
 export function CockpitLayout() {
+  const navigate = useNavigate();
+  const auth = getAuth();
+  if (!auth) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="cockpit">
       <aside className="sidebar">
@@ -15,6 +22,18 @@ export function CockpitLayout() {
       <div className="content">
         <header className="topbar">
           <span>Radiology Cockpit</span>
+          <span className="topbar-user">
+            {auth.user.name} · {auth.user.role}
+            <button
+              className="ghost"
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
+            >
+              Sign out
+            </button>
+          </span>
         </header>
         <main>
           <Outlet />

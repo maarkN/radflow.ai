@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Report } from '../../lib/api';
 import * as api from '../../lib/api';
 import { DictationPage } from '../dictation-page';
+import { seedAuth } from '../../test/auth';
 
 vi.mock('../../lib/api', async (importOriginal) => ({
   ...(await importOriginal<object>()),
@@ -28,15 +29,15 @@ const baseReport: Report = {
 };
 
 function renderPage() {
-  const router = createMemoryRouter(
-    [{ path: '/dictate/:studyId', element: <DictationPage /> }],
-    { initialEntries: [`/dictate/${baseReport.studyId}`] },
-  );
+  const router = createMemoryRouter([{ path: '/dictate/:studyId', element: <DictationPage /> }], {
+    initialEntries: [`/dictate/${baseReport.studyId}`],
+  });
   return render(<RouterProvider router={router} />);
 }
 
 describe('DictationPage', () => {
   beforeEach(() => {
+    seedAuth();
     vi.mocked(api.startReport).mockResolvedValue(baseReport);
   });
 

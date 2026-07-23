@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  attachTranscript,
-  generateDraft,
-  signReport,
-  startReport,
-  updateReport,
-} from '../lib/api';
+import { attachTranscript, generateDraft, signReport, startReport, updateReport } from '../lib/api';
 import type { ApiError, Report, ReportSections } from '../lib/api';
 import { getRadiologistId } from '../lib/radiologist';
 import { useSpeech } from '../features/dictation/use-speech';

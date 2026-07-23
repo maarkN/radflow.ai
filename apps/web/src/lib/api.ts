@@ -1,3 +1,5 @@
+import { authHeaders } from './auth';
+
 export type Study = {
   id: string;
   accessionNumber: string;
@@ -50,14 +52,14 @@ export async function listStudies(filters: WorklistFilters): Promise<StudyCollec
       params.set(key, value);
     }
   }
-  const response = await fetch(`${API_URL}/studies?${params}`);
+  const response = await fetch(`${API_URL}/studies?${params}`, { headers: authHeaders() });
   return handle<StudyCollection>(response);
 }
 
 export async function claimStudy(studyId: string, radiologistId: string): Promise<void> {
   const response = await fetch(`${API_URL}/studies/${studyId}/claim`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', ...authHeaders() },
     body: JSON.stringify({ radiologistId }),
   });
   await handle(response);
@@ -66,7 +68,7 @@ export async function claimStudy(studyId: string, radiologistId: string): Promis
 export async function releaseStudy(studyId: string, radiologistId: string): Promise<void> {
   const response = await fetch(`${API_URL}/studies/${studyId}/release`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', ...authHeaders() },
     body: JSON.stringify({ radiologistId }),
   });
   await handle(response);
@@ -93,7 +95,7 @@ export type Report = {
 
 async function reportRequest(path: string, init?: RequestInit): Promise<Report> {
   const response = await fetch(`${API_URL}${path}`, {
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', ...authHeaders() },
     ...init,
   });
   const body = await handle<{ data: Report }>(response);
@@ -118,10 +120,7 @@ export function generateDraft(reportId: string): Promise<Report> {
   return reportRequest(`/reports/${reportId}/draft`, { method: 'POST' });
 }
 
-export function updateReport(
-  reportId: string,
-  sections: Partial<ReportSections>,
-): Promise<Report> {
+export function updateReport(reportId: string, sections: Partial<ReportSections>): Promise<Report> {
   return reportRequest(`/reports/${reportId}`, {
     method: 'PUT',
     body: JSON.stringify({ sections }),
@@ -142,7 +141,9 @@ export type DicomStudyRef = {
 };
 
 export async function getDicomStudy(accessionNumber: string): Promise<DicomStudyRef> {
-  const response = await fetch(`${API_URL}/dicom/studies/${accessionNumber}`);
+  const response = await fetch(`${API_URL}/dicom/studies/${accessionNumber}`, {
+    headers: authHeaders(),
+  });
   const body = await handle<{ data: DicomStudyRef }>(response);
   return body.data;
 }

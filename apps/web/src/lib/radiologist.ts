@@ -1,12 +1,10 @@
-const STORAGE_KEY = 'radflow.radiologistId';
+import { getAuth } from './auth';
 
-/** Demo identity until real auth lands (epic 4): one uuid per browser. */
+/** The signed-in user's id — used as the acting radiologist across the app. */
 export function getRadiologistId(): string {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    return stored;
+  const auth = getAuth();
+  if (!auth) {
+    throw new Error('Not authenticated');
   }
-  const generated = crypto.randomUUID();
-  localStorage.setItem(STORAGE_KEY, generated);
-  return generated;
+  return auth.user.id;
 }
