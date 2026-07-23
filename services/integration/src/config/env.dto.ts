@@ -29,4 +29,11 @@ export class EnvDto {
 
   @IsString()
   ORTHANC_URL: string = 'http://localhost:8042';
+
+  @IsString()
+  WORKLIST_URL: string = 'http://localhost:3001';
+
+  /** Optional MLLP destination for outbound ORU, as host:port. Empty = store only. */
+  @IsString()
+  ORU_DESTINATION: string = '';
 }
