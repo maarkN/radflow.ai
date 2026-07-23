@@ -6,10 +6,12 @@ import { Inject } from '@nestjs/common';
 import { NatsJetStreamPublisher } from '@radflow/messaging';
 import { OutboxRelay } from '../../core/shared/infra/messaging/outbox-relay';
 import type { EnvDto } from '../../config/env.dto';
+import { OrmConsumerService } from './orm.consumer';
 
 @Global()
 @Module({
   providers: [
+    OrmConsumerService,
     {
       provide: NatsJetStreamPublisher,
       useFactory: async (config: ConfigService<EnvDto, true>) => {
