@@ -1,9 +1,6 @@
 import { Subjects } from '@radflow/shared';
 import type { Modality, Priority } from '@radflow/shared';
-import type {
-  IDomainEvent,
-  IntegrationEvent,
-} from '@radflow/ddd';
+import type { IDomainEvent, IntegrationEvent } from '@radflow/ddd';
 import type { RadiologistId, ReportId, StudyId } from '../value-objects/ids.vo';
 
 export class StudyOrderedEvent implements IDomainEvent {

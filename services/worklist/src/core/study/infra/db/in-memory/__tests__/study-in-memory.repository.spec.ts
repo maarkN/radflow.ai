@@ -1,6 +1,9 @@
 import { ConcurrencyError } from '@radflow/ddd';
 import { StudyFakeBuilder } from '../../../../domain/study-fake.builder';
-import { DuplicatedAccessionNumberError, StudySearchParams } from '../../../../domain/study.repository';
+import {
+  DuplicatedAccessionNumberError,
+  StudySearchParams,
+} from '../../../../domain/study.repository';
 import { RadiologistId } from '../../../../domain/value-objects/ids.vo';
 import { StudyInMemoryRepository } from '../study-in-memory.repository';
 

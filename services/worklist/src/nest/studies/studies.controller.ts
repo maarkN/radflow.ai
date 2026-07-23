@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpCode, Inject, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Inject,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ClaimStudyUseCase } from '../../core/study/application/use-cases/claim-study/claim-study.use-case';
 import { CreateStudyUseCase } from '../../core/study/application/use-cases/create-study/create-study.use-case';
 import { GetStudyUseCase } from '../../core/study/application/use-cases/get-study/get-study.use-case';
@@ -6,6 +16,10 @@ import { ListStudiesUseCase } from '../../core/study/application/use-cases/list-
 import { MarkDictatedUseCase } from '../../core/study/application/use-cases/mark-dictated/mark-dictated.use-case';
 import { ReleaseStudyUseCase } from '../../core/study/application/use-cases/release-study/release-study.use-case';
 import { SignStudyUseCase } from '../../core/study/application/use-cases/sign-study/sign-study.use-case';
+import type {
+  IWorklistStatsQuery,
+  WorklistStats,
+} from '../../core/study/application/queries/worklist-stats.query';
 import { ClaimStudyRequestDto } from './dto/claim-study.request.dto';
 import { CreateStudyRequestDto } from './dto/create-study.request.dto';
 import { MarkDictatedRequestDto } from './dto/mark-dictated.request.dto';
@@ -23,7 +37,13 @@ export class StudiesController {
     @Inject(GetStudyUseCase) private readonly getStudy: GetStudyUseCase,
     @Inject(MarkDictatedUseCase) private readonly markDictated: MarkDictatedUseCase,
     @Inject(SignStudyUseCase) private readonly signStudy: SignStudyUseCase,
+    @Inject('WorklistStatsQuery') private readonly worklistStats: IWorklistStatsQuery,
   ) {}
+
+  @Get('stats')
+  async stats(): Promise<{ data: WorklistStats }> {
+    return { data: await this.worklistStats.execute() };
+  }
 
   @Post(':id/dictate')
   @HttpCode(200)

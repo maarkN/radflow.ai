@@ -1,10 +1,11 @@
 import type { SortDirection } from '@radflow/ddd';
-import {
-  PaginationOutputMapper,
-  type PaginationOutput,
-} from '@radflow/ddd';
+import { PaginationOutputMapper, type PaginationOutput } from '@radflow/ddd';
 import type { IUseCase } from '@radflow/ddd';
-import { StudySearchParams, type IStudyRepository, type StudyFilter } from '../../../domain/study.repository';
+import {
+  StudySearchParams,
+  type IStudyRepository,
+  type StudyFilter,
+} from '../../../domain/study.repository';
 import { StudyOutputMapper, type StudyOutput } from '../common/study-output';
 
 export type ListStudiesInput = {

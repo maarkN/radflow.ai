@@ -34,9 +34,9 @@ describe('MarkDictatedUseCase', () => {
     const events = unitOfWork
       .getAggregateRoots()
       .flatMap((aggregate) => [...aggregate.getUncommittedEvents()]);
-    expect(events.some((event) => event.getIntegrationEvent()?.subject === Subjects.StudyDictated)).toBe(
-      true,
-    );
+    expect(
+      events.some((event) => event.getIntegrationEvent()?.subject === Subjects.StudyDictated),
+    ).toBe(true);
   });
 
   it('rejects dictation by a radiologist that does not hold the study', async () => {

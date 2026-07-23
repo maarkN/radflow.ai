@@ -13,6 +13,7 @@ import { ReleaseStudyUseCase } from '../../core/study/application/use-cases/rele
 import { SignStudyUseCase } from '../../core/study/application/use-cases/sign-study/sign-study.use-case';
 import type { IStudyRepository } from '../../core/study/domain/study.repository';
 import { StudyTypeOrmRepository } from '../../core/study/infra/db/typeorm/study-typeorm.repository';
+import { WorklistStatsTypeOrmQuery } from '../../core/study/infra/db/typeorm/worklist-stats-typeorm.query';
 
 export const STUDY_PROVIDERS: Record<string, Provider> = {
   CLOCK: {
@@ -66,6 +67,11 @@ export const STUDY_PROVIDERS: Record<string, Provider> = {
     scope: Scope.REQUEST,
     useFactory: (repository: IStudyRepository) => new GetStudyUseCase(repository),
     inject: ['StudyRepository'],
+  },
+  WORKLIST_STATS_QUERY: {
+    provide: 'WorklistStatsQuery',
+    useFactory: (dataSource: DataSource) => new WorklistStatsTypeOrmQuery(dataSource),
+    inject: [DataSource],
   },
   LIST_STUDIES_USE_CASE: {
     provide: ListStudiesUseCase,

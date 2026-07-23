@@ -15,8 +15,13 @@ export type StudyFilter = {
 export class StudySearchParams extends SearchParams<StudyFilter> {}
 export class StudySearchResult extends SearchResult<Study> {}
 
-export interface IStudyRepository
-  extends ISearchableRepository<Study, StudyId, StudyFilter, StudySearchParams, StudySearchResult> {
+export interface IStudyRepository extends ISearchableRepository<
+  Study,
+  StudyId,
+  StudyFilter,
+  StudySearchParams,
+  StudySearchResult
+> {
   findByAccessionNumber(accessionNumber: string): Promise<Study | null>;
 }
 

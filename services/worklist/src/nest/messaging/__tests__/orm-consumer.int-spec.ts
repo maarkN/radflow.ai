@@ -129,8 +129,7 @@ describe('ORM consumer (integration PG + NATS)', () => {
 
     await waitFor(async () => (await studyCount(accession)) === 1);
     const outboxRow = (await context.dataSource.getRepository(OutboxModel).find()).find(
-      (row) =>
-        (row.envelope.payload as { accessionNumber?: string }).accessionNumber === accession,
+      (row) => (row.envelope.payload as { accessionNumber?: string }).accessionNumber === accession,
     );
     expect(outboxRow?.envelope.correlationId).toBe(envelope.correlationId);
   });

@@ -41,7 +41,9 @@ export class StudyTypeOrmRepository implements IStudyRepository {
     try {
       await this.manager.getRepository(StudyModel).insert(StudyModelMapper.toModel(aggregate));
     } catch (error) {
-      if ((error as { driverError?: { code?: string } }).driverError?.code === PG_UNIQUE_VIOLATION) {
+      if (
+        (error as { driverError?: { code?: string } }).driverError?.code === PG_UNIQUE_VIOLATION
+      ) {
         throw new DuplicatedAccessionNumberError(aggregate.accessionNumber);
       }
       throw error;
