@@ -1,7 +1,7 @@
 import type { DataSource } from 'typeorm';
 import { IsNull } from 'typeorm';
 import { OutboxModel } from '../db/typeorm/outbox.model';
-import type { IEventPublisher } from './nats-jetstream.publisher';
+import type { IEventPublisher } from '@radflow/messaging';
 
 /**
  * Polls unpublished outbox rows and publishes them to NATS. Rows are locked

@@ -10,8 +10,9 @@
     "lint": "eslint .",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "typecheck": "pnpm --filter @radflow/shared run build && pnpm -r run typecheck",
-    "test": "pnpm --filter @radflow/shared run build && pnpm -r run test"
+    "build:packages": "pnpm --filter @radflow/shared run build && pnpm --filter @radflow/messaging run build",
+    "typecheck": "pnpm run build:packages && pnpm -r run typecheck",
+    "test": "pnpm run build:packages && pnpm -r run test"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",

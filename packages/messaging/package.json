@@ -1,0 +1,25 @@
+{
+  "name": "@radflow/messaging",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NATS JetStream helpers: publisher with dedupe and durable consumer with DLQ",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@radflow/shared": "workspace:*",
+    "nats": "^2.29.2"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.13.3",
+    "@swc/jest": "^0.2.39",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.13.3",
+    "jest": "^30.0.5",
+    "testcontainers": "^11.7.1"
+  }
+}

@@ -9,10 +9,7 @@ import { StudyTypeOrmRepository } from '../../../../../study/infra/db/typeorm/st
 import { Study } from '../../../../../study/domain/study.aggregate';
 import { StudyFakeBuilder } from '../../../../../study/domain/study-fake.builder';
 import { setupTypeOrm } from '../../../testing/typeorm-helpers';
-import {
-  NatsJetStreamPublisher,
-  RADFLOW_STREAM,
-} from '../../../messaging/nats-jetstream.publisher';
+import { NatsJetStreamPublisher, RADFLOW_STREAM } from '@radflow/messaging';
 import { OutboxRelay } from '../../../messaging/outbox-relay';
 import { CreateOutboxTable1753200000001 } from '../migrations/1753200000001-create-outbox-table';
 import { OutboxModel } from '../outbox.model';

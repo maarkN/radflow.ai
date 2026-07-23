@@ -3,6 +3,15 @@ import type { JetStreamClient, NatsConnection } from 'nats';
 
 export const RADFLOW_STREAM = 'RADFLOW';
 
+export async function ensureStream(connection: NatsConnection): Promise<void> {
+  const manager = await connection.jetstreamManager();
+  try {
+    await manager.streams.info(RADFLOW_STREAM);
+  } catch {
+    await manager.streams.add({ name: RADFLOW_STREAM, subjects: ['radflow.>'] });
+  }
+}
+
 export type PublishResult = { duplicate: boolean };
 
 export interface IEventPublisher {
@@ -15,7 +24,7 @@ export interface IEventPublisher {
 
 /**
  * JetStream publisher. `messageId` becomes the Nats-Msg-Id header, so the
- * stream deduplicates redeliveries of the same outbox row (at-least-once safe).
+ * stream deduplicates redeliveries of the same message (at-least-once safe).
  */
 export class NatsJetStreamPublisher implements IEventPublisher {
   private connection: NatsConnection | null = null;
@@ -25,12 +34,7 @@ export class NatsJetStreamPublisher implements IEventPublisher {
 
   async connect(): Promise<void> {
     this.connection = await connect({ servers: this.natsUrl });
-    const manager = await this.connection.jetstreamManager();
-    try {
-      await manager.streams.info(RADFLOW_STREAM);
-    } catch {
-      await manager.streams.add({ name: RADFLOW_STREAM, subjects: ['radflow.>'] });
-    }
+    await ensureStream(this.connection);
     this.jetStream = this.connection.jetstream();
   }
 

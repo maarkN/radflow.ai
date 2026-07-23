@@ -3,7 +3,7 @@ import type { OnApplicationBootstrap, OnApplicationShutdown } from '@nestjs/comm
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { Inject } from '@nestjs/common';
-import { NatsJetStreamPublisher } from '../../core/shared/infra/messaging/nats-jetstream.publisher';
+import { NatsJetStreamPublisher } from '@radflow/messaging';
 import { OutboxRelay } from '../../core/shared/infra/messaging/outbox-relay';
 import type { EnvDto } from '../../config/env.dto';
 
