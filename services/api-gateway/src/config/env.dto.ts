@@ -24,5 +24,8 @@ export class EnvDto {
   INTEGRATION_URL: string = 'http://localhost:3002';
 
   @IsString()
+  DICTATION_URL: string = 'http://localhost:3003';
+
+  @IsString()
   NATS_URL: string = 'nats://localhost:4222';
 }
