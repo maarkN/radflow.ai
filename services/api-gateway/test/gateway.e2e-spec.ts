@@ -22,14 +22,23 @@ describe('API gateway (e2e)', () => {
   let radiologistToken: string;
   let adminToken: string;
   let techToken: string;
+  const auditRecords: Record<string, unknown>[] = [];
 
   beforeAll(async () => {
-    natsContainer = await new GenericContainer('nats:2.12-alpine')
-      .withExposedPorts(4222)
-      .start();
+    natsContainer = await new GenericContainer('nats:2.12-alpine').withExposedPorts(4222).start();
 
     worklistStub = createServer((req, res) => {
       res.setHeader('content-type', 'application/json');
+      if (req.method === 'POST' && req.url === '/audit') {
+        let raw = '';
+        req.on('data', (chunk: Buffer) => (raw += chunk.toString()));
+        req.on('end', () => {
+          auditRecords.push(JSON.parse(raw) as Record<string, unknown>);
+          res.writeHead(204);
+          res.end();
+        });
+        return;
+      }
       if (req.method === 'GET' && req.url?.startsWith('/studies')) {
         res.writeHead(200);
         res.end(JSON.stringify({ data: [{ id: 'stub-study' }], meta: { total: 1 } }));
@@ -110,12 +119,22 @@ describe('API gateway (e2e)', () => {
     expect(response.body.data[0].id).toBe('stub-study');
   });
 
-  it('RBAC: a technologist cannot claim a study (403)', async () => {
+  it('RBAC: a technologist cannot claim a study (403) and the denial is audited', async () => {
+    auditRecords.length = 0;
     await request(app.getHttpServer())
       .post('/api/v1/studies/some-id/claim')
       .set('Authorization', `Bearer ${techToken}`)
       .send({ radiologistId: 'x' })
       .expect(403);
+
+    expect(auditRecords).toHaveLength(1);
+    expect(auditRecords[0]).toMatchObject({
+      action: 'access.denied',
+      entityType: 'Route',
+      origin: 'api-gateway',
+      detail: { role: 'technologist', requiredRoles: ['radiologist'] },
+    });
+    expect(auditRecords[0]?.entityId).toContain('/studies/some-id/claim');
   });
 
   it('RBAC: only admin reads the audit trail', async () => {

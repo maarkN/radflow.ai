@@ -9,9 +9,7 @@ import type { EnvDto } from '../../config/env.dto';
 @Controller('dicom')
 @UseGuards(JwtAuthGuard)
 export class DicomProxyController {
-  constructor(
-    @Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>,
-  ) {}
+  constructor(@Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>) {}
 
   @All('studies/:accessionNumber')
   async forward(@Req() request: Request, @Res() response: Response): Promise<void> {
@@ -28,9 +26,7 @@ export class DicomProxyController {
 @Controller('hl7')
 @UseGuards(JwtAuthGuard)
 export class Hl7ProxyController {
-  constructor(
-    @Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>,
-  ) {}
+  constructor(@Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>) {}
 
   @All(['oru', 'oru/:accessionNumber'])
   async forward(@Req() request: Request, @Res() response: Response): Promise<void> {

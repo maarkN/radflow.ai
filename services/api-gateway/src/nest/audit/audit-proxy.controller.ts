@@ -9,9 +9,7 @@ import type { EnvDto } from '../../config/env.dto';
 @UseGuards(JwtAuthGuard)
 @Roles('admin')
 export class AuditProxyController {
-  constructor(
-    @Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>,
-  ) {}
+  constructor(@Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>) {}
 
   @Get(':service')
   async forward(@Req() request: Request, @Res() response: Response): Promise<void> {

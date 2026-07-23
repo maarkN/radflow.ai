@@ -13,9 +13,7 @@ import type { EnvDto } from '../../config/env.dto';
 @Controller('studies')
 @UseGuards(JwtAuthGuard)
 export class StudiesProxyController {
-  constructor(
-    @Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>,
-  ) {}
+  constructor(@Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>) {}
 
   private forward(request: Request, response: Response): Promise<void> {
     return proxyRequest(

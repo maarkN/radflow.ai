@@ -1,0 +1,127 @@
+{
+  "uid": "radflow-worklist",
+  "title": "RadFlow — Worklist KPIs",
+  "tags": ["radflow"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "refresh": "15s",
+  "time": { "from": "now-3h", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Queue by status",
+      "datasource": { "type": "prometheus", "uid": null },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "fieldConfig": { "defaults": { "unit": "short", "min": 0 }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "radflow_worklist_queue_total",
+          "legendFormat": "{{status}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "SLA at risk",
+      "datasource": { "type": "prometheus", "uid": null },
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 1 },
+              { "color": "red", "value": 5 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "radflow_worklist_sla_at_risk_total", "refId": "A" }]
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "SLA breached",
+      "datasource": { "type": "prometheus", "uid": null },
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "radflow_worklist_sla_breached_total", "refId": "A" }]
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Avg turnaround (min)",
+      "datasource": { "type": "prometheus", "uid": null },
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 4 },
+      "fieldConfig": { "defaults": { "unit": "m", "decimals": 1 }, "overrides": [] },
+      "targets": [{ "expr": "radflow_worklist_turnaround_minutes", "refId": "A" }]
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Ordered / signed last hour",
+      "datasource": { "type": "prometheus", "uid": null },
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 4 },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "radflow_worklist_ordered_last_hour_total",
+          "legendFormat": "ordered",
+          "refId": "A"
+        },
+        {
+          "expr": "radflow_worklist_signed_last_hour_total",
+          "legendFormat": "signed",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Turnaround trend (min)",
+      "datasource": { "type": "prometheus", "uid": null },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "fieldConfig": { "defaults": { "unit": "m" }, "overrides": [] },
+      "targets": [{ "expr": "radflow_worklist_turnaround_minutes", "refId": "A" }]
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "Hourly volume",
+      "datasource": { "type": "prometheus", "uid": null },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "fieldConfig": { "defaults": { "unit": "short", "min": 0 }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "radflow_worklist_ordered_last_hour_total",
+          "legendFormat": "ordered/h",
+          "refId": "A"
+        },
+        {
+          "expr": "radflow_worklist_signed_last_hour_total",
+          "legendFormat": "signed/h",
+          "refId": "B"
+        }
+      ]
+    }
+  ]
+}

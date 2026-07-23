@@ -10,9 +10,7 @@ import type { EnvDto } from '../../config/env.dto';
 @UseGuards(JwtAuthGuard)
 @Roles('radiologist')
 export class ReportsProxyController {
-  constructor(
-    @Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>,
-  ) {}
+  constructor(@Inject(ConfigService) private readonly config: ConfigService<EnvDto, true>) {}
 
   @All(['', ':id/transcript', ':id/draft', ':id/sign', ':id'])
   async forward(@Req() request: Request, @Res() response: Response): Promise<void> {
