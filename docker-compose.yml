@@ -51,6 +51,13 @@ services:
     ports:
       - '${OTEL_GRPC_PORT:-4317}:4317'
       - '${OTEL_HTTP_PORT:-4318}:4318'
+    depends_on:
+      - jaeger
+
+  jaeger:
+    image: jaegertracing/jaeger:latest
+    ports:
+      - '${JAEGER_UI_PORT:-16686}:16686'
 
   prometheus:
     image: prom/prometheus:latest
@@ -84,6 +91,8 @@ services:
       INTEGRATION_URL: http://integration:3002
       DICTATION_URL: http://dictation:3003
       NATS_URL: nats://nats:4222
+      JWT_SECRET: ${JWT_SECRET:-radflow-demo-secret-change-me}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
     ports:
       - '${API_GATEWAY_PORT:-3010}:3000'
     depends_on:
@@ -106,6 +115,7 @@ services:
       PORT: 3001
       DATABASE_URL: postgresql://radflow:radflow@postgres:5432/radflow
       NATS_URL: nats://nats:4222
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
     ports:
       - '${WORKLIST_PORT:-3001}:3001'
     depends_on:
@@ -131,6 +141,7 @@ services:
       ORTHANC_URL: http://orthanc:8042
       ORTHANC_PUBLIC_URL: http://localhost:${ORTHANC_HTTP_PORT:-8042}
       WORKLIST_URL: http://worklist:3001
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
     ports:
       - '${INTEGRATION_PORT:-3002}:3002'
       - '${MLLP_PORT:-2575}:2575'
@@ -156,6 +167,7 @@ services:
       NATS_URL: nats://nats:4222
       REPORT_AI_URL: http://report-ai:8000
       WORKLIST_URL: http://worklist:3001
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
     ports:
       - '${DICTATION_PORT:-3003}:3003'
     depends_on:

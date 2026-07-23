@@ -9,6 +9,7 @@ RUN pnpm install --frozen-lockfile --filter @radflow/worklist... \
   && pnpm --filter @radflow/shared run build \
   && pnpm --filter @radflow/messaging run build \
   && pnpm --filter @radflow/ddd run build \
+  && pnpm --filter @radflow/telemetry run build \
   && pnpm --filter @radflow/worklist run build \
   && pnpm --filter @radflow/worklist deploy --prod --legacy /out
 

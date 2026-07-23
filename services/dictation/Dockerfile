@@ -9,6 +9,7 @@ RUN pnpm install --frozen-lockfile --filter @radflow/dictation... \
   && pnpm --filter @radflow/shared run build \
   && pnpm --filter @radflow/messaging run build \
   && pnpm --filter @radflow/ddd run build \
+  && pnpm --filter @radflow/telemetry run build \
   && pnpm --filter @radflow/dictation run build \
   && pnpm --filter @radflow/dictation deploy --prod --legacy /out
 
