@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsEnum, IsInt, Max, Min } from 'class-validator';
+import { IsEnum, IsInt, IsString, Max, Min } from 'class-validator';
 
 export enum NodeEnv {
   Development = 'development',
@@ -16,4 +16,10 @@ export class EnvDto {
   @Min(1)
   @Max(65535)
   PORT: number = 3000;
+
+  @IsString()
+  WORKLIST_URL: string = 'http://localhost:3001';
+
+  @IsString()
+  NATS_URL: string = 'nats://localhost:4222';
 }

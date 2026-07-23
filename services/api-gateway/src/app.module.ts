@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { validateEnv } from './config/env.validation';
+import { EventsGateway } from './nest/events/events.gateway';
 import { HealthModule } from './nest/health/health.module';
+import { StudiesProxyController } from './nest/studies/studies-proxy.controller';
 
 @Module({
   imports: [
@@ -12,5 +14,7 @@ import { HealthModule } from './nest/health/health.module';
     }),
     HealthModule,
   ],
+  controllers: [StudiesProxyController],
+  providers: [EventsGateway],
 })
 export class AppModule {}
