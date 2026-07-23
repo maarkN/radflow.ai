@@ -15,20 +15,39 @@ rascunho — integrado a sistemas clínicos via HL7 e DICOM.
 
 ## Architecture / Arquitetura
 
-```
-                    React/Vite cockpit ── worklist · dictation · admin KPIs
-                          │ HTTPS + WebSocket (JWT)
-                    api-gateway (NestJS) ── auth · RBAC · audit de 403 · WS fan-out
-                          │ HTTP (X-User-*, traceparent)
-        ┌─────────────────┼──────────────────────┬─────────────────┐
-   worklist-svc      integration-svc        dictation-svc     report-ai-svc
-   (NestJS + PG)     (NestJS)               (NestJS + PG)     (Python/FastAPI)
-   fila · SLA        HL7 ORM in (MLLP)      laudo draft→      LLM draft · achados
-   claim/sign        ORU out · Orthanc      signed · saga     críticos · eval harness
-   audit · stats     bridge · DICOM synth   c/ worklist       (Anthropic/OpenAI/stub)
-        └────────────── NATS JetStream (outbox → relay → durable consumers → DLQ) ──┘
+```mermaid
+flowchart TB
+    web["React/Vite cockpit<br/>worklist · dictation · admin KPIs"]
+    gw["api-gateway (NestJS)<br/>auth · RBAC · 403 audit · WS fan-out"]
 
-   PostgreSQL (DB por serviço) · Orthanc + OHIF (PACS/viewer) · OTel → Jaeger · Prometheus → Grafana
+    web -- "HTTPS + WebSocket (JWT)" --> gw
+
+    subgraph services["Event-driven microservices"]
+        wl["worklist-svc (NestJS + PG)<br/>queue · SLA · claim/sign<br/>audit · stats"]
+        integ["integration-svc (NestJS)<br/>HL7 ORM in (MLLP) · ORU out<br/>Orthanc bridge · synthetic DICOM"]
+        dict["dictation-svc (NestJS + PG)<br/>report draft → signed<br/>signing saga with worklist"]
+        ai["report-ai-svc (Python/FastAPI)<br/>LLM draft · critical findings<br/>eval harness (Anthropic/OpenAI/stub)"]
+    end
+
+    gw -- "HTTP (X-User-*, traceparent)" --> wl & integ & dict
+    dict -- "draft (HTTP)" --> ai
+    dict -- "signing saga (HTTP)" --> wl
+
+    nats[("NATS JetStream<br/>outbox → relay → durable consumers → DLQ")]
+    wl <--> nats
+    integ <--> nats
+    dict <--> nats
+    nats -- "events → WS" --> gw
+
+    subgraph infra["Infrastructure"]
+        pg[("PostgreSQL<br/>database per service")]
+        pacs["Orthanc + OHIF<br/>PACS / viewer"]
+        obs["OTel → Jaeger<br/>Prometheus → Grafana"]
+    end
+
+    wl -.-> pg
+    dict -.-> pg
+    integ -.-> pacs
 ```
 
 Key patterns / Padrões centrais: rich domain aggregates (DDD tático), transactional outbox,
