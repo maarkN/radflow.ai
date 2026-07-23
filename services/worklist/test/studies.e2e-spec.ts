@@ -39,6 +39,15 @@ describe('Studies API (e2e)', () => {
     expect(second.body.data.id).toBe(first.body.data.id);
   });
 
+  it('GET /studies/stats returns the KPIs inside a single {data} envelope', async () => {
+    const response = await request(context.app.getHttpServer()).get('/studies/stats').expect(200);
+
+    expect(response.body.data.queueByStatus).toEqual(
+      expect.objectContaining({ unread: expect.any(Number), signed: expect.any(Number) }),
+    );
+    expect(response.body.data.data).toBeUndefined();
+  });
+
   it('POST /studies rejects an invalid payload with 422', async () => {
     await request(context.app.getHttpServer())
       .post('/studies')
@@ -49,7 +58,9 @@ describe('Studies API (e2e)', () => {
   it('GET /studies returns the worklist ordered by priority then SLA with meta', async () => {
     await request(context.app.getHttpServer())
       .post('/studies')
-      .send(createPayload({ priority: 'routine', accessionNumber: `R-${randomUUID().slice(0, 8)}` }))
+      .send(
+        createPayload({ priority: 'routine', accessionNumber: `R-${randomUUID().slice(0, 8)}` }),
+      )
       .expect(201);
     const stat = createPayload({ accessionNumber: `S-${randomUUID().slice(0, 8)}` });
     await request(context.app.getHttpServer()).post('/studies').send(stat).expect(201);

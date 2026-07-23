@@ -40,9 +40,10 @@ export class StudiesController {
     @Inject('WorklistStatsQuery') private readonly worklistStats: IWorklistStatsQuery,
   ) {}
 
+  // O interceptor global já envelopa em {data} — devolver o objeto cru.
   @Get('stats')
-  async stats(): Promise<{ data: WorklistStats }> {
-    return { data: await this.worklistStats.execute() };
+  stats(): Promise<WorklistStats> {
+    return this.worklistStats.execute();
   }
 
   @Post(':id/dictate')
