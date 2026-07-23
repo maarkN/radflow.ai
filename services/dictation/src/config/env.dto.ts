@@ -18,7 +18,7 @@ export class EnvDto {
   PORT: number = 3003;
 
   @IsString()
-  DATABASE_URL: string = 'postgresql://radflow:radflow@localhost:5434/radflow';
+  DATABASE_URL: string = 'postgresql://radflow:radflow@localhost:5434/radflow_dictation';
 
   @IsString()
   NATS_URL: string = 'nats://localhost:4222';

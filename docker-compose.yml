@@ -11,6 +11,7 @@ services:
       - '${POSTGRES_PORT:-5434}:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./ops/postgres/init.sql:/docker-entrypoint-initdb.d/10-create-databases.sql:ro
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 5s
@@ -81,6 +82,7 @@ services:
       PORT: 3000
       WORKLIST_URL: http://worklist:3001
       INTEGRATION_URL: http://integration:3002
+      DICTATION_URL: http://dictation:3003
       NATS_URL: nats://nats:4222
     ports:
       - '${API_GATEWAY_PORT:-3010}:3000'
@@ -150,6 +152,10 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3003
+      DATABASE_URL: postgresql://radflow:radflow@postgres:5432/radflow_dictation
+      NATS_URL: nats://nats:4222
+      REPORT_AI_URL: http://report-ai:8000
+      WORKLIST_URL: http://worklist:3001
     ports:
       - '${DICTATION_PORT:-3003}:3003'
     depends_on:
@@ -169,6 +175,8 @@ services:
       dockerfile: services/report-ai/Dockerfile
     environment:
       PORT: '8000'
+      AI_PROVIDER: ${AI_PROVIDER:-anthropic}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
     ports:
       - '${REPORT_AI_PORT:-8000}:8000'
     depends_on:
