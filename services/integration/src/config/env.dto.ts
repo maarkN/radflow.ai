@@ -30,6 +30,10 @@ export class EnvDto {
   @IsString()
   ORTHANC_URL: string = 'http://localhost:8042';
 
+  /** Orthanc URL as reachable from the user's BROWSER (viewer links). */
+  @IsString()
+  ORTHANC_PUBLIC_URL: string = 'http://localhost:8042';
+
   @IsString()
   WORKLIST_URL: string = 'http://localhost:3001';
 
