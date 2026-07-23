@@ -77,6 +77,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+      WORKLIST_URL: http://worklist:3001
+      NATS_URL: nats://nats:4222
     ports:
       - '${API_GATEWAY_PORT:-3010}:3000'
     depends_on:
@@ -97,6 +99,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
+      DATABASE_URL: postgresql://radflow:radflow@postgres:5432/radflow
+      NATS_URL: nats://nats:4222
     ports:
       - '${WORKLIST_PORT:-3001}:3001'
     depends_on:
